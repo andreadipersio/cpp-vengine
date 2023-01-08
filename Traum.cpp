@@ -1,17 +1,20 @@
 ﻿#include <format>
 #include <map>
 #include <iostream>
+#include <boost/log/trivial.hpp>
 
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 
 #include "GameClock.cpp"
+#include "Input.cpp"
+#include "SDLControllerEventAdapter.h"
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
-    cout << format("SDL_Init Error: {}", SDL_GetError()) << std::endl;
+    BOOST_LOG_TRIVIAL(fatal) << format("SDL_Init Error: {}", SDL_GetError());
   }
 
   GameClock gameClock;
@@ -21,6 +24,8 @@ int main() {
 
 
   map<int32_t, SDL_GameController*> controllers;
+
+  input::ActionSet* actionSet = new input::MenuActionSet;
 
   bool run = true; 
 
@@ -34,24 +39,40 @@ int main() {
         break;
       case SDL_CONTROLLERDEVICEADDED: {
         auto controllerId = event.cdevice.which;
-        cout << format("Controller with id '{}' has been detected", controllerId) << std::endl;
+        BOOST_LOG_TRIVIAL(info) << format(
+            "Controller with id '{}' has been detected", controllerId);
         SDL_GameControllerOpen(controllerId);
         auto controller = SDL_GameControllerFromInstanceID(controllerId);
         if (controller) {
           controllers[(int32_t)controllerId] = controller;
         } else {
-          cout << format("Controller with id '{}' could not be opened: {}",
-                         controllerId, SDL_GetError())
-               << std::endl;
+          BOOST_LOG_TRIVIAL(warning)
+              << format("Controller with id '{}' could not be opened: {}",
+                        controllerId, SDL_GetError());
         }
         break;
       } 
       case SDL_CONTROLLERBUTTONDOWN:
-        cout << format("FPS: {}", gameClock.fps) << std::endl;
+        if (event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
+          switch (actionSet->id()) {
+          case input::GAME_ACTION_SET:
+            BOOST_LOG_TRIVIAL(debug) << "Activating MenuActionSet";
+            actionSet = new input::MenuActionSet;
+            break;
+          case input::MENU_ACTION_SET:
+            BOOST_LOG_TRIVIAL(debug) << "Activating GameActionSet";
+            actionSet = new input::GameActionSet;
+            break;
+          }
+        } else {
+          event::ControllerButtonEvent controllerButtonEvent =
+              adapter::sdl::controllerEvent::getControllerButtonEvent(&event);
+          actionSet->handleInput(&controllerButtonEvent);
+        }
         break;
       case SDL_KEYDOWN:
         SDL_Event quitEvent = {SDL_QUIT};
-        cout << format("FPS: {}", gameClock.fps) << std::endl;
+        BOOST_LOG_TRIVIAL(debug) << format("FPS: {}", gameClock.fps);
 
         switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
@@ -65,6 +86,8 @@ int main() {
     SDL_Delay(16);
     gameClock.atFrameEnd();
   }
+
+  
 
   SDL_DestroyWindow(win);
   SDL_Quit();
