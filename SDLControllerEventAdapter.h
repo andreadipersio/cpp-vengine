@@ -8,7 +8,7 @@ namespace sdl {
 namespace controllerEvent {
 
 event::ControllerButton getButton(Uint8);
-event::ControllerButtonEvent getControllerButtonEvent(SDL_Event*); 
+event::Event get(SDL_Event*); 
 
 } // namespace event
 } // namespace sdl

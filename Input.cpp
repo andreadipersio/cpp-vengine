@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/log/trivial.hpp>
+#include <variant>
 
 #include "Event.h"
 
@@ -28,8 +29,14 @@ class ActionSet {
 public:
   virtual ActionSetId id() = 0;
 
-  void handleInput(event::ControllerButtonEvent* event) {
-    switch (event->button) {
+  void handleInput(event::Event* event) {
+    auto inputEvent = std::get_if<event::ControllerButtonPress>(event);
+
+    if (!inputEvent) {
+      return;
+    }
+    
+    switch (inputEvent->button) {
     case event::A:
       buttonA_->execute();
       break;

@@ -21,12 +21,15 @@ event::ControllerButton getButton(Uint8 sdlButton) {
   }
 }
 
-event::ControllerButtonEvent
-getControllerButtonEvent(SDL_Event* sdlEvent) {
+event::Event get(SDL_Event* sdlEvent) {
   switch (sdlEvent->type) {
-  case SDL_CONTROLLERBUTTONDOWN:
-    return event::ControllerButtonEvent(getButton(sdlEvent->cbutton.button),
-                                        event::PRESS);
+  case SDL_CONTROLLERBUTTONDOWN: {
+    auto button = getButton(sdlEvent->cbutton.button);
+    auto event = event::ControllerButtonPress(button);
+
+    return event::Event(event);
+  }
+
   }
 }
 

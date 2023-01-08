@@ -4,9 +4,9 @@
 
 namespace event {
 
-  Event::Event(EventType type) : type(type) {}
+  ControllerButtonPress::ControllerButtonPress(ControllerButton button)
+      : button(button) {}
 
-  ControllerButtonEvent::ControllerButtonEvent(ControllerButton button, ControllerEventType type)
-      : Event(CONTROLLER_BUTTON_DOWN), button(button), controllerEventType(type) {}
-
+  ControllerButtonRelease::ControllerButtonRelease(ControllerButton button)
+      : button(button) {}
 }

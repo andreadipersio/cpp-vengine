@@ -30,15 +30,15 @@ int main(int argc, char* argv[]) {
   bool run = true; 
 
   while (run) {
-    SDL_Event event;
+    SDL_Event sdlEvent;
 
-    while (SDL_PollEvent(&event)) {
-      switch (event.type) {
+    while (SDL_PollEvent(&sdlEvent)) {
+      switch (sdlEvent.type) {
       case SDL_QUIT:
         run = false;
         break;
       case SDL_CONTROLLERDEVICEADDED: {
-        auto controllerId = event.cdevice.which;
+        auto controllerId = sdlEvent.cdevice.which;
         BOOST_LOG_TRIVIAL(info) << format(
             "Controller with id '{}' has been detected", controllerId);
         SDL_GameControllerOpen(controllerId);
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         break;
       } 
       case SDL_CONTROLLERBUTTONDOWN:
-        if (event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
+        if (sdlEvent.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
           switch (actionSet->id()) {
           case input::GAME_ACTION_SET:
             BOOST_LOG_TRIVIAL(debug) << "Activating MenuActionSet";
@@ -65,16 +65,15 @@ int main(int argc, char* argv[]) {
             break;
           }
         } else {
-          event::ControllerButtonEvent controllerButtonEvent =
-              adapter::sdl::controllerEvent::getControllerButtonEvent(&event);
-          actionSet->handleInput(&controllerButtonEvent);
+          auto event = adapter::sdl::controllerEvent::get(&sdlEvent);
+          actionSet->handleInput(&event);
         }
         break;
       case SDL_KEYDOWN:
         SDL_Event quitEvent = {SDL_QUIT};
         BOOST_LOG_TRIVIAL(debug) << format("FPS: {}", gameClock.fps);
 
-        switch (event.key.keysym.scancode) {
+        switch (sdlEvent.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
           SDL_PushEvent(&quitEvent);
         }
