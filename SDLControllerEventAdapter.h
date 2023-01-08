@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Event.cpp"
+#include "Event.h"
 #include <SDL2/SDL.h>
 
 namespace adapter {

@@ -2,7 +2,7 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "Event.cpp"
+#include "Event.h"
 
 namespace input {
 

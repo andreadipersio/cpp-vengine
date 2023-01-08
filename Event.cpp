@@ -1,25 +1,12 @@
 #pragma once
 
+#include "Event.h"
+
 namespace event {
-enum ControllerButton { A, B, X, Y, LB, RB, LT, RT, START, SELECT };
-enum ControllerEventType { PRESS, RELEASE };
 
-enum EventType { CONTROLLER_BUTTON_DOWN, CONTROLLER_BUTTON_UP };
+  Event::Event(EventType type) : type(type) {}
 
-class Event {
-public:
-  EventType type;
-
-  Event(EventType type) : type(type) {}
-};
-
-class ControllerButtonEvent: public Event {
-public:
-  ControllerButton button;
-  ControllerEventType controllerEventType;
-
-  ControllerButtonEvent(ControllerButton button, ControllerEventType type)
+  ControllerButtonEvent::ControllerButtonEvent(ControllerButton button, ControllerEventType type)
       : Event(CONTROLLER_BUTTON_DOWN), button(button), controllerEventType(type) {}
-};
 
 }
