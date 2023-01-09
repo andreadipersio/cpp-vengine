@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "Input.h"
-#include "GameClock.cpp"
+#include "GameClock.h"
 
 struct GameContext {
   input::ActionSet* actionSet;

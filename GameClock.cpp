@@ -2,35 +2,26 @@
 
 #include <chrono>
 
+#include "GameClock.h"
+
 using namespace std::chrono;
 
-class GameClock {
-public:
-  const unsigned short int& fps;
+GameClock::GameClock() : frameDelta_(0), fps(fps_), fps_(0) {}
 
-  GameClock() : frameDelta(0), fps(fps_), fps_(0) {}
+void GameClock::atFrameStart() { frameStart_ = steady_clock::now(); }
 
-  void atFrameStart() { frameStart = steady_clock::now(); }
+void GameClock::atFrameEnd() {
+  frameEnd_ = steady_clock::now();
+  frameDelta_ = CalculateFrameDelta();
+  fps_ = CalculateFps();
+}
 
-  void atFrameEnd() {
-    frameEnd = steady_clock::now();
-    frameDelta = CalculateFrameDelta();
-    fps_ = CalculateFps();
+nanoseconds GameClock::CalculateFrameDelta() { return frameEnd_ - frameStart_; }
+
+unsigned short int GameClock::CalculateFps() {
+  if (frameDelta_ > 0ns) {
+    return (unsigned short int)(1s / frameDelta_);
+  } else {
+    return 0;
   }
-
-private:
-  time_point<steady_clock> frameStart, frameEnd;
-  nanoseconds frameDelta;
-
-  unsigned short int fps_;
-
-  nanoseconds CalculateFrameDelta() { return frameEnd - frameStart; }
-
-  unsigned short int CalculateFps() {
-    if (frameDelta > 0ns) {
-      return (unsigned short int)(1s / frameDelta);
-    } else {
-      return 0;
-    }
-  }
-};
+}
