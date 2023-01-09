@@ -1,13 +1,12 @@
 ﻿#include <format>
-#include <map>
 #include <iostream>
 #include <boost/log/trivial.hpp>
 
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 
-#include "GameClock.cpp"
-#include "Input.cpp"
+#include "GameContext.h"
+#include "Input.h"
 #include "SDLControllerEventAdapter.h"
 
 using namespace std;
@@ -17,15 +16,13 @@ int main(int argc, char* argv[]) {
     BOOST_LOG_TRIVIAL(fatal) << format("SDL_Init Error: {}", SDL_GetError());
   }
 
-  GameClock gameClock;
 
   SDL_Window* win = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED,
                                      SDL_WINDOWPOS_CENTERED, 800, 600, 0);
 
+  GameContext gc;
 
-  map<int32_t, SDL_GameController*> controllers;
-
-  input::ActionSet* actionSet = new input::MenuActionSet;
+  gc.actionSet = new input::MenuActionSet;
 
   bool run = true; 
 
@@ -44,7 +41,7 @@ int main(int argc, char* argv[]) {
         SDL_GameControllerOpen(controllerId);
         auto controller = SDL_GameControllerFromInstanceID(controllerId);
         if (controller) {
-          controllers[(int32_t)controllerId] = controller;
+          gc.controllers[(int32_t)controllerId] = controller;
         } else {
           BOOST_LOG_TRIVIAL(warning)
               << format("Controller with id '{}' could not be opened: {}",
@@ -54,24 +51,24 @@ int main(int argc, char* argv[]) {
       } 
       case SDL_CONTROLLERBUTTONDOWN:
         if (sdlEvent.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
-          switch (actionSet->id()) {
+          switch (gc.actionSet->id()) {
           case input::GAME_ACTION_SET:
             BOOST_LOG_TRIVIAL(debug) << "Activating MenuActionSet";
-            actionSet = new input::MenuActionSet;
+            gc.actionSet = new input::MenuActionSet;
             break;
           case input::MENU_ACTION_SET:
             BOOST_LOG_TRIVIAL(debug) << "Activating GameActionSet";
-            actionSet = new input::GameActionSet;
+            gc.actionSet = new input::GameActionSet;
             break;
           }
         } else {
-          auto event = adapter::sdl::controllerEvent::get(&sdlEvent);
-          actionSet->handleInput(&event);
+          auto event = adapter::sdl::event::get(&sdlEvent);
+          gc.actionSet->handleInput(&event);
         }
         break;
       case SDL_KEYDOWN:
         SDL_Event quitEvent = {SDL_QUIT};
-        BOOST_LOG_TRIVIAL(debug) << format("FPS: {}", gameClock.fps);
+        BOOST_LOG_TRIVIAL(debug) << format("FPS: {}", gc.clock.fps);
 
         switch (sdlEvent.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
@@ -81,9 +78,9 @@ int main(int argc, char* argv[]) {
       }
     }
 
-    gameClock.atFrameStart();
+    gc.clock.atFrameStart();
     SDL_Delay(16);
-    gameClock.atFrameEnd();
+    gc.clock.atFrameEnd();
   }
 
   

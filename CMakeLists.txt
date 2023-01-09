@@ -9,5 +9,5 @@ project ("Traum")
 find_package(Boost REQUIRED COMPONENTS chrono log)
 find_package(SDL2 REQUIRED)
 
-add_executable (Traum "Traum.cpp"  "GameClock.cpp" "Input.cpp" "Event.cpp" "SDLControllerEventAdapter.cpp")
+add_executable (Traum "Traum.cpp"  "GameClock.cpp" "Input.cpp" "Event.cpp" "SDLControllerEventAdapter.cpp" "GameContext.h")
 target_link_libraries(Traum PRIVATE SDL2::SDL2 Boost::log_setup Boost::log)

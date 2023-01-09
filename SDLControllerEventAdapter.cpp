@@ -4,32 +4,32 @@
 
 namespace adapter {
 namespace sdl {
-namespace controllerEvent {
+namespace event {
 
-event::ControllerButton getButton(Uint8 sdlButton) {
-  switch (sdlButton) {
-  case SDL_CONTROLLER_BUTTON_A:
-    return event::A;
-  case SDL_CONTROLLER_BUTTON_B:
-    return event::B;
-  case SDL_CONTROLLER_BUTTON_X:
-    return event::X;
-  case SDL_CONTROLLER_BUTTON_Y:
-    return event::Y;
-  case SDL_CONTROLLER_BUTTON_START:
-    return event::START;
-  }
-}
-
-event::Event get(SDL_Event* sdlEvent) {
+::event::Event get(SDL_Event* sdlEvent) {
   switch (sdlEvent->type) {
   case SDL_CONTROLLERBUTTONDOWN: {
     auto button = getButton(sdlEvent->cbutton.button);
-    auto event = event::ControllerButtonPress(button);
+    auto event = ::event::ControllerButtonPress(button);
 
-    return event::Event(event);
+    return ::event::Event(event);
   }
 
+  }
+}
+
+::event::ControllerButton getButton(Uint8 sdlButton) {
+  switch (sdlButton) {
+  case SDL_CONTROLLER_BUTTON_A:
+    return ::event::A;
+  case SDL_CONTROLLER_BUTTON_B:
+    return ::event::B;
+  case SDL_CONTROLLER_BUTTON_X:
+    return ::event::X;
+  case SDL_CONTROLLER_BUTTON_Y:
+    return ::event::Y;
+  case SDL_CONTROLLER_BUTTON_START:
+    return ::event::START;
   }
 }
 
