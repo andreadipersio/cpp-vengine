@@ -16,9 +16,9 @@ void GameClock::atFrameEnd() {
   fps_ = CalculateFps();
 }
 
-nanoseconds GameClock::CalculateFrameDelta() { return frameEnd_ - frameStart_; }
+nanoseconds GameClock::CalculateFrameDelta() const { return frameEnd_ - frameStart_; }
 
-unsigned short int GameClock::CalculateFps() {
+unsigned short int GameClock::CalculateFps() const {
   if (frameDelta_ > 0ns) {
     return (unsigned short int)(1s / frameDelta_);
   } else {

@@ -17,6 +17,6 @@ private:
   nanoseconds frameDelta_;
   unsigned short int fps_;
 
-  nanoseconds CalculateFrameDelta();
-  unsigned short int CalculateFps();
+  nanoseconds CalculateFrameDelta() const;
+  unsigned short int CalculateFps() const;
 };

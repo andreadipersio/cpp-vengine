@@ -27,7 +27,7 @@ enum ActionSetId { GAME_ACTION_SET, MENU_ACTION_SET };
 
 class ActionSet {
 public:
-  virtual ActionSetId id() = 0;
+  virtual ActionSetId id() const = 0;
 
   void handleInput(event::Event* event);
 
@@ -39,13 +39,12 @@ protected:
 class GameActionSet : public ActionSet {
 public:
   GameActionSet();
-  ActionSetId id();
+  ActionSetId id() const;
 };
 
 class MenuActionSet : public ActionSet {
 public:
   MenuActionSet();
-
-  ActionSetId id();
+  ActionSetId id() const;
 };
-} // namespace Input
+} // namespace input

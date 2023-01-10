@@ -32,12 +32,12 @@ GameActionSet::GameActionSet() {
     buttonB_ = new DebugCommand;
 }
 
-ActionSetId GameActionSet::id() { return GAME_ACTION_SET; }
+ActionSetId GameActionSet::id() const { return GAME_ACTION_SET; }
 
 MenuActionSet::MenuActionSet() {
     buttonA_ = new MenuConfirmCommand;
     buttonB_ = new DebugCommand;
   }
 
-ActionSetId MenuActionSet::id() { return MENU_ACTION_SET; }
+ActionSetId MenuActionSet::id() const { return MENU_ACTION_SET; }
 } // namespace Input

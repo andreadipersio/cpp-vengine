@@ -1,7 +1,12 @@
 #pragma once
 
-#include "Event.h"
+#include <chrono>
+
 #include <SDL2/SDL.h>
+
+#include "Event.h"
+
+namespace chrono = std::chrono;
 
 namespace adapter {
 namespace sdl {
