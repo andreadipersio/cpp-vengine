@@ -3,17 +3,17 @@
 #include "Event.h"
 
 namespace event {
-BaseEvent::BaseEvent(chrono::milliseconds timestamp)
+BaseEvent::BaseEvent(milliseconds timestamp)
     : timestamp(timestamp_), timestamp_(timestamp) {}
 
 BaseControllerButtonEvent::BaseControllerButtonEvent(
-    chrono::milliseconds timestamp, ControllerButton button)
+    milliseconds timestamp, ControllerButton button)
     : BaseEvent(timestamp), button(button) {}
 
-ControllerButtonPress::ControllerButtonPress(chrono::milliseconds timestamp,
+ControllerButtonPress::ControllerButtonPress(milliseconds timestamp,
                                              ControllerButton button)
     : BaseControllerButtonEvent(timestamp, button) {}
-ControllerButtonRelease::ControllerButtonRelease(chrono::milliseconds timestamp,
+ControllerButtonRelease::ControllerButtonRelease(milliseconds timestamp,
                                                  ControllerButton button) : BaseControllerButtonEvent(timestamp, button) {}
 
 } // namespace event

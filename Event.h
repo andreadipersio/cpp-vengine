@@ -3,7 +3,7 @@
 #include <chrono>
 #include <variant>
 
-namespace chrono = std::chrono;
+using std::chrono::milliseconds;
 
 namespace event {
 enum ControllerButton { A, B, X, Y, LB, RB, LT, RT, START, SELECT };
@@ -13,13 +13,13 @@ enum EventType { CONTROLLER_BUTTON_DOWN, CONTROLLER_BUTTON_UP };
 
 class BaseEvent {
 public:
-  const chrono::milliseconds& timestamp;
+  const milliseconds& timestamp;
 
 protected:
-  BaseEvent(chrono::milliseconds);
+  BaseEvent(milliseconds);
 
 private:
-  chrono::milliseconds timestamp_;
+  milliseconds timestamp_;
 };
 
 class BaseControllerButtonEvent : public BaseEvent {
@@ -27,17 +27,17 @@ public:
   ControllerButton button;
 
 protected:
-  BaseControllerButtonEvent(chrono::milliseconds, ControllerButton);
+  BaseControllerButtonEvent(milliseconds, ControllerButton);
 };
 
 class ControllerButtonPress : public BaseControllerButtonEvent {
 public:
-  ControllerButtonPress(chrono::milliseconds, ControllerButton);
+  ControllerButtonPress(milliseconds, ControllerButton);
 };
 
 class ControllerButtonRelease : public BaseControllerButtonEvent {
 public:
-  ControllerButtonRelease(chrono::milliseconds, ControllerButton);
+  ControllerButtonRelease(milliseconds, ControllerButton);
 };
 
 using Event = std::variant<ControllerButtonPress, ControllerButtonRelease>;

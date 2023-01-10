@@ -10,7 +10,7 @@ namespace event {
   switch (sdlEvent->type) {
   case SDL_CONTROLLERBUTTONDOWN: {
     auto button = getButton(sdlEvent->cbutton.button);
-    chrono::milliseconds timestamp{sdlEvent->cbutton.button};
+    milliseconds timestamp{sdlEvent->cbutton.button};
 
     auto event = ::event::ControllerButtonPress(timestamp, button);
 

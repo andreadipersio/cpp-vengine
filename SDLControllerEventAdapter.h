@@ -6,7 +6,7 @@
 
 #include "Event.h"
 
-namespace chrono = std::chrono;
+using std::chrono::milliseconds;
 
 namespace adapter {
 namespace sdl {
