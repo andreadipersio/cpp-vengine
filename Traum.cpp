@@ -1,4 +1,4 @@
-﻿#include <format>
+﻿#include <fmt/core.h>
 #include <iostream>
 #include <boost/log/trivial.hpp>
 
@@ -9,7 +9,7 @@
 #include "Input.h"
 #include "SDLControllerEventAdapter.h"
 
-using namespace std;
+using fmt::format;
 
 int main(int argc, char* argv[]) {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
