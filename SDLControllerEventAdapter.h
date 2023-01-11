@@ -12,7 +12,7 @@ namespace adapter {
 namespace sdl {
 namespace event {
 
-::event::Event get(SDL_Event*); 
+::event::Event get(SDL_Event*);
 ::event::ControllerButton getButton(Uint8);
 
 } // namespace event

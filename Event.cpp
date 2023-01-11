@@ -4,16 +4,20 @@
 
 namespace event {
 BaseEvent::BaseEvent(milliseconds timestamp)
-    : timestamp(timestamp_), timestamp_(timestamp) {}
+	: timestamp(timestamp_), timestamp_(timestamp) {
+}
 
 BaseControllerButtonEvent::BaseControllerButtonEvent(
-    milliseconds timestamp, ControllerButton button)
-    : BaseEvent(timestamp), button(button) {}
+	milliseconds timestamp, ControllerButton button)
+	: BaseEvent(timestamp), button(button) {
+}
 
 ControllerButtonPress::ControllerButtonPress(milliseconds timestamp,
-                                             ControllerButton button)
-    : BaseControllerButtonEvent(timestamp, button) {}
+																						 ControllerButton button)
+	: BaseControllerButtonEvent(timestamp, button) {
+}
 ControllerButtonRelease::ControllerButtonRelease(milliseconds timestamp,
-                                                 ControllerButton button) : BaseControllerButtonEvent(timestamp, button) {}
+																								 ControllerButton button) : BaseControllerButtonEvent(timestamp, button) {
+}
 
 } // namespace event
