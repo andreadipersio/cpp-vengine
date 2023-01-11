@@ -31,6 +31,8 @@ class ActionSet {
 public:
 	virtual ActionSetId id() const = 0;
 
+	void handleInput(event::ControllerButtonPress* event);
+	void handleInput(event::ControllerButtonRelease* event);
 	void handleInput(event::Event* event);
 
 protected:

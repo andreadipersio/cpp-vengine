@@ -15,13 +15,28 @@ void DebugCommand::execute() {
 }
 
 void ActionSet::handleInput(event::Event* event) {
-	auto inputEvent = std::get_if<event::ControllerButtonPress>(event);
-
-	if (!inputEvent) {
-		return;
+	if (auto forwardedEvent = std::get_if<event::ControllerButtonPress>(event)) {
+		return handleInput(forwardedEvent);
 	}
 
-	switch (inputEvent->button) {
+	if (auto forwardedEvent = std::get_if<event::ControllerButtonRelease>(event)) {
+		return handleInput(forwardedEvent);
+	}
+}
+
+void ActionSet::handleInput(event::ControllerButtonPress* event) {
+	switch (event->button) {
+	case event::A:
+		buttonA_->execute();
+		break;
+	case event::B:
+		buttonB_->execute();
+		break;
+	}
+}
+
+void ActionSet::handleInput(event::ControllerButtonRelease* event) {
+	switch (event->button) {
 	case event::A:
 		buttonA_->execute();
 		break;
