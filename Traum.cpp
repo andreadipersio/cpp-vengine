@@ -50,6 +50,7 @@ int main(int argc, char* argv[]) {
 				break;
 			}
 			case SDL_CONTROLLERBUTTONDOWN:
+			case SDL_CONTROLLERBUTTONUP:
 				if (sdlEvent.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
 					switch (gc.actionSet->id()) {
 					case input::GAME_ACTION_SET:
@@ -62,13 +63,13 @@ int main(int argc, char* argv[]) {
 						break;
 					}
 				} else {
-					auto event = adapter::sdl::event::get(&sdlEvent);
+					auto event = adapter::sdl::event::get(sdlEvent);
 					gc.actionSet->handleInput(&event);
 				}
 				break;
 			case SDL_KEYDOWN:
 				SDL_Event quitEvent = { SDL_QUIT };
-				BOOST_LOG_TRIVIAL(debug) << format("FPS: {}", gc.clock.fps);
+				BOOST_LOG_TRIVIAL(debug) << format("FPS: {}", gc.clock.fps());
 
 				switch (sdlEvent.key.keysym.scancode) {
 				case SDL_SCANCODE_ESCAPE:

@@ -2,6 +2,14 @@
 
 namespace input {
 
+ButtonState::ButtonState(milliseconds pressedAt, ControllerButton button)
+	: button(button), pressedAt(pressedAt) {}
+
+void ButtonState::Released(milliseconds releasedAt) {
+	this->releasedAt = releasedAt;
+	holdDuration = releasedAt - pressedAt;
+}
+
 void AttackCommand::execute() {
 	BOOST_LOG_TRIVIAL(debug) << "Attack!!!";
 }
@@ -16,16 +24,19 @@ void DebugCommand::execute() {
 
 void ActionSet::handleInput(event::Event* event) {
 	if (auto forwardedEvent = std::get_if<event::ControllerButtonPress>(event)) {
-		return handleInput(forwardedEvent);
+		return handleInput(*forwardedEvent);
 	}
 
 	if (auto forwardedEvent = std::get_if<event::ControllerButtonRelease>(event)) {
-		return handleInput(forwardedEvent);
+		return handleInput(*forwardedEvent);
 	}
 }
 
-void ActionSet::handleInput(event::ControllerButtonPress* event) {
-	switch (event->button) {
+void ActionSet::handleInput(event::ControllerButtonPress& event) {
+	ButtonState buttonState{event.timestamp(), event.button};
+	buttonStateArray[buttonState.button] = buttonState;
+
+	switch (event.button) {
 	case event::A:
 		buttonA_->execute();
 		break;
@@ -35,8 +46,23 @@ void ActionSet::handleInput(event::ControllerButtonPress* event) {
 	}
 }
 
-void ActionSet::handleInput(event::ControllerButtonRelease* event) {
-	switch (event->button) {
+void ActionSet::handleInput(event::ControllerButtonRelease& event) {
+	optional<ButtonState> buttonState = buttonStateArray[event.button];
+
+	if (buttonState.has_value()) {
+		buttonState.value().Released(event.timestamp());
+
+		BOOST_LOG_TRIVIAL(debug) << "Button " 
+														 << buttonState.value().button 
+			                       << " has been held for "
+			                       << buttonState.value().holdDuration.value().count();
+
+		buttonStateArray[event.button] = nullopt;
+	} else {
+		BOOST_LOG_TRIVIAL(warning) << "Expected a button press event, found none";
+	}
+
+	switch (event.button) {
 	case event::A:
 		buttonA_->execute();
 		break;
@@ -63,4 +89,5 @@ MenuActionSet::MenuActionSet() {
 ActionSetId MenuActionSet::id() const {
 	return MENU_ACTION_SET;
 }
+
 } // namespace Input

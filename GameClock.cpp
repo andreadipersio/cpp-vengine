@@ -6,7 +6,7 @@
 
 using namespace std::chrono;
 
-GameClock::GameClock() : frameDelta_(0), fps(fps_), fps_(0) {
+GameClock::GameClock() : frameDelta_(0), fps_(0) {
 }
 
 void GameClock::atFrameStart() {
@@ -17,6 +17,10 @@ void GameClock::atFrameEnd() {
 	frameEnd_ = steady_clock::now();
 	frameDelta_ = CalculateFrameDelta();
 	fps_ = CalculateFps();
+}
+
+unsigned short int GameClock::fps() const {
+	return fps_;
 }
 
 nanoseconds GameClock::CalculateFrameDelta() const {

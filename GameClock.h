@@ -6,11 +6,10 @@ using namespace std::chrono;
 
 class GameClock {
 public:
-	const unsigned short int& fps;
-
 	GameClock();
 	void atFrameStart();
 	void atFrameEnd();
+	unsigned short int fps() const;
 
 private:
 	time_point<steady_clock> frameStart_, frameEnd_;

@@ -1,11 +1,30 @@
 #pragma once
 
+#include <array>
 #include <boost/log/trivial.hpp>
+#include <chrono>
+#include <fmt/core.h>
+#include <optional>
 #include <variant>
 
 #include "Event.h"
 
+using event::ControllerButton;
+using std::chrono::milliseconds;
+using std::optional, std::nullopt;
+
 namespace input {
+
+class ButtonState {
+public:
+	ControllerButton button;
+	milliseconds pressedAt;
+	optional<milliseconds> releasedAt;
+	optional<milliseconds> holdDuration;
+	
+	ButtonState(milliseconds, ControllerButton);
+	void Released(milliseconds);
+};
 
 class Command {
 public:
@@ -29,11 +48,13 @@ enum ActionSetId {
 
 class ActionSet {
 public:
+	std::array<optional<ButtonState>, 20> buttonStateArray;
+
 	virtual ActionSetId id() const = 0;
 
-	void handleInput(event::ControllerButtonPress* event);
-	void handleInput(event::ControllerButtonRelease* event);
-	void handleInput(event::Event* event);
+	void handleInput(event::ControllerButtonPress&);
+	void handleInput(event::ControllerButtonRelease& event);
+	void handleInput(event::Event*);
 
 protected:
 	Command* buttonA_;

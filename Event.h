@@ -1,14 +1,19 @@
 #pragma once
 
 #include <chrono>
+#include <iostream>
 #include <variant>
 
+using std::ostream;
 using std::chrono::milliseconds;
 
 namespace event {
 enum ControllerButton {
 	A, B, X, Y, LB, RB, LT, RT, START, SELECT
 };
+
+ostream& operator<<(ostream&, ControllerButton);
+
 enum ControllerEventType {
 	PRESS, RELEASE
 };
@@ -19,12 +24,12 @@ enum EventType {
 
 class BaseEvent {
 public:
-	const milliseconds& timestamp;
+	milliseconds timestamp() const;
 
 protected:
 	BaseEvent(milliseconds);
 
-private:
+private: 
 	milliseconds timestamp_;
 };
 
