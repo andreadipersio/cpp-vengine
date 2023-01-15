@@ -52,9 +52,9 @@ public:
 
 	virtual ActionSetId id() const = 0;
 
-	void handleInput(event::ControllerButtonPress&);
-	void handleInput(event::ControllerButtonRelease& event);
-	void handleInput(event::Event*);
+	Command* handleInput(event::ControllerButtonPress&);
+	Command* handleInput(event::ControllerButtonRelease& event);
+	Command* handleInput(event::Event*);
 
 protected:
 	Command* buttonA_;

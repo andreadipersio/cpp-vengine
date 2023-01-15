@@ -64,7 +64,9 @@ int main(int argc, char* argv[]) {
 					}
 				} else {
 					auto event = adapter::sdl::event::get(sdlEvent);
-					gc.actionSet->handleInput(&event);
+					if (auto command = gc.actionSet->handleInput(&event)) {
+						command->execute();
+					}
 				}
 				break;
 			case SDL_KEYDOWN:

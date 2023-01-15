@@ -22,7 +22,7 @@ void DebugCommand::execute() {
 	BOOST_LOG_TRIVIAL(debug) << "Debug time!";
 }
 
-void ActionSet::handleInput(event::Event* event) {
+Command* ActionSet::handleInput(event::Event* event) {
 	if (auto forwardedEvent = std::get_if<event::ControllerButtonPress>(event)) {
 		return handleInput(*forwardedEvent);
 	}
@@ -30,23 +30,27 @@ void ActionSet::handleInput(event::Event* event) {
 	if (auto forwardedEvent = std::get_if<event::ControllerButtonRelease>(event)) {
 		return handleInput(*forwardedEvent);
 	}
+
+	return nullptr;
 }
 
-void ActionSet::handleInput(event::ControllerButtonPress& event) {
+Command* ActionSet::handleInput(event::ControllerButtonPress& event) {
 	ButtonState buttonState{event.timestamp(), event.button};
 	buttonStateArray[buttonState.button] = buttonState;
 
 	switch (event.button) {
 	case event::A:
-		buttonA_->execute();
+		return buttonA_;
 		break;
 	case event::B:
-		buttonB_->execute();
+		return buttonB_;
 		break;
 	}
+
+	return nullptr;
 }
 
-void ActionSet::handleInput(event::ControllerButtonRelease& event) {
+Command* ActionSet::handleInput(event::ControllerButtonRelease& event) {
 	optional<ButtonState> buttonState = buttonStateArray[event.button];
 
 	if (buttonState.has_value()) {
@@ -64,12 +68,14 @@ void ActionSet::handleInput(event::ControllerButtonRelease& event) {
 
 	switch (event.button) {
 	case event::A:
-		buttonA_->execute();
+		return buttonA_;
 		break;
 	case event::B:
-		buttonB_->execute();
+		return buttonB_;
 		break;
 	}
+
+	return nullptr;
 }
 
 GameActionSet::GameActionSet() {
