@@ -33,13 +33,13 @@ public:
 
 class AttackCommand : public Command {
 public:
-	void execute();
+	void execute() override;
 };
 class MenuConfirmCommand : public Command {
-	void execute();
+	void execute() override;
 };
 class DebugCommand : public Command {
-	void execute();
+	void execute() override;
 };
 
 enum ActionSetId {
@@ -64,12 +64,12 @@ protected:
 class GameActionSet : public ActionSet {
 public:
 	GameActionSet();
-	ActionSetId id() const;
+	ActionSetId id() const override;
 };
 
 class MenuActionSet : public ActionSet {
 public:
 	MenuActionSet();
-	ActionSetId id() const;
+	ActionSetId id() const override;
 };
 } // namespace input

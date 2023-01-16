@@ -14,10 +14,6 @@ enum ControllerButton {
 
 ostream& operator<<(ostream&, ControllerButton);
 
-enum ControllerEventType {
-	PRESS, RELEASE
-};
-
 enum EventType {
 	CONTROLLER_BUTTON_DOWN, CONTROLLER_BUTTON_UP
 };
