@@ -11,5 +11,13 @@ find_package(Fmt REQUIRED CONFIG)
 find_package(SDL2 REQUIRED)
 
 
-add_executable (Traum "Traum.cpp"  "GameClock.cpp" "Input.cpp" "Event.cpp" "SDLControllerEventAdapter.cpp" "GameContext.h"   "GameState.cpp" "GameState.h")
+add_executable (Traum 
+	"Traum.cpp"  
+	"GameClock.cpp" 
+	"Input.cpp" 
+	"Event.cpp" 
+	"SDLControllerEventAdapter.cpp" 
+	"GameContext.h"   
+	"GameState.cpp" 
+)
 target_link_libraries(Traum PRIVATE SDL2::SDL2 Boost::log_setup Boost::log fmt::fmt)
