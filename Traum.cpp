@@ -7,8 +7,6 @@
 
 #include "GameContext.h"
 #include "GameState.h"
-#include "Input.h"
-#include "SDLControllerEventAdapter.h"
 
 using fmt::format;
 
@@ -50,16 +48,21 @@ int main(int argc, char* argv[]) {
 				break;
 			}
 			case SDL_CONTROLLERBUTTONDOWN:
-				if (sdlEvent.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
-					gameStateMachine.process_event(event_StartButton());
+				switch (sdlEvent.cbutton.button) {
+				case SDL_CONTROLLER_BUTTON_START:
+					gameStateMachine.process_event(inputEvent_StartButton{});
+					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+					gameStateMachine.process_event(inputEvent_DPadDown{});
+					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_UP:
+					gameStateMachine.process_event(inputEvent_DPadUp{});
+					break;
+				case SDL_CONTROLLER_BUTTON_A:
+					break;
 				}
-			case SDL_CONTROLLERBUTTONUP: {
-				auto event = adapter::sdl::event::get(sdlEvent);
-				if (auto command = gc.actionSet->handleInput(&event)) {
-					command->execute();
-				}
+			case SDL_CONTROLLERBUTTONUP: 
 				break;
-			}
 			case SDL_KEYDOWN:
 				SDL_Event quitEvent = { SDL_QUIT };
 				BOOST_LOG_TRIVIAL(debug) << format("FPS: {}", gc.clock.fps());

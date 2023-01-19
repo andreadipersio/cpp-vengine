@@ -11,7 +11,6 @@
 #include <boost/mpl/list.hpp>
 
 #include "GameContext.h"
-#include "Input.h"
 
 namespace sc = boost::statechart;
 namespace mpl = boost::mpl;
@@ -19,7 +18,11 @@ namespace mpl = boost::mpl;
 struct menuState;
 struct playState;
 
-struct event_StartButton : sc::event<event_StartButton> {};
+struct inputEvent_StartButton : sc::event<inputEvent_StartButton> {};
+struct inputEvent_DPadDown: sc::event<inputEvent_DPadDown> {};
+struct inputEvent_DPadUp: sc::event<inputEvent_DPadUp> {};
+struct inputEvent_ButtonA: sc::event<inputEvent_ButtonA> {};
+
 struct event_GameQuit : sc::event<event_GameQuit> {};
 
 struct GameStateMachine : sc::state_machine<GameStateMachine, menuState> {
@@ -30,12 +33,15 @@ struct GameStateMachine : sc::state_machine<GameStateMachine, menuState> {
 
 struct menuState : sc::simple_state<menuState, GameStateMachine> {
 	typedef mpl::list<
-		sc::custom_reaction<event_StartButton>,
+		sc::custom_reaction<inputEvent_StartButton>,
+		sc::custom_reaction<inputEvent_DPadDown>,
+		sc::custom_reaction<inputEvent_DPadUp>,
 		sc::custom_reaction<event_GameQuit>
 	> reactions;
 
-	sc::result react(const event_StartButton&);
-
+	sc::result react(const inputEvent_StartButton&);
+	sc::result react(const inputEvent_DPadDown&);
+	sc::result react(const inputEvent_DPadUp&);
 	sc::result react(const event_GameQuit& event);
 
 	menuState();
@@ -43,10 +49,10 @@ struct menuState : sc::simple_state<menuState, GameStateMachine> {
 
 struct playState : sc::simple_state<playState, GameStateMachine> {
 	typedef  mpl::list<
-		sc::custom_reaction<event_StartButton>
+		sc::custom_reaction<inputEvent_StartButton>
 	> reactions;
 
-	sc::result react(const event_StartButton&);
+	sc::result react(const inputEvent_StartButton&);
 
 	playState();
 };
