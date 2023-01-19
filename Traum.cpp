@@ -2,8 +2,12 @@
 #include <iostream>
 #include <boost/log/trivial.hpp>
 
+#include <utility>
+#include <array>
+
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "GameContext.h"
 #include "GameState.h"
@@ -15,9 +19,27 @@ int main(int argc, char* argv[]) {
 		BOOST_LOG_TRIVIAL(fatal) << format("SDL_Init Error: {}", SDL_GetError());
 	}
 
+	if (TTF_Init() != 0) {
+		BOOST_LOG_TRIVIAL(fatal) << format("TTF_Init Error: {}", TTF_GetError());
+	}
+
+	TTF_Font* menuFont = TTF_OpenFont("F:/projects/Traum/Traum/MenuFont.ttf", 24);
+
+	if (!menuFont) {
+		BOOST_LOG_TRIVIAL(fatal) << format("Cannot load font: {}", TTF_GetError());
+		return 1;
+	}
+
 
 	SDL_Window* win = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED,
 																		 SDL_WINDOWPOS_CENTERED, 800, 600, 0);
+
+	SDL_Renderer* r = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+
+	if (!r) {
+		BOOST_LOG_TRIVIAL(fatal) << format("SDL_CreateRenderer Error: {}", SDL_GetError());
+		return 1;
+	}
 
 	GameContext gc{};
 
@@ -61,7 +83,7 @@ int main(int argc, char* argv[]) {
 				case SDL_CONTROLLER_BUTTON_A:
 					break;
 				}
-			case SDL_CONTROLLERBUTTONUP: 
+			case SDL_CONTROLLERBUTTONUP:
 				break;
 			case SDL_KEYDOWN:
 				SDL_Event quitEvent = { SDL_QUIT };
@@ -76,6 +98,39 @@ int main(int argc, char* argv[]) {
 		}
 
 		gc.clock.atFrameStart();
+
+
+		SDL_SetRenderDrawColor(r, 0, 0, 0, 0);
+		SDL_RenderClear(r);
+
+		///
+		for (auto i = 0; i < gc.menu.entries.size(); i++) {
+			auto menuEntry = gc.menu.entries[i];
+
+			SDL_Color color;
+			if (gc.menu.index == i) {
+				color = { 238, 75, 43 };
+			} else {
+				color = { 255, 255, 255 };
+			}
+
+			SDL_Surface* surface = TTF_RenderText_Solid(menuFont, menuEntry.c_str(), color);
+
+			if (!surface) {
+				BOOST_LOG_TRIVIAL(fatal) << format("Cannot create surface: {}", TTF_GetError());
+				return 1;
+			}
+
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(r, surface);
+
+			SDL_Rect dest = { 20, i * surface->h + 20, surface->w, surface->h };
+			SDL_RenderCopy(r, texture, NULL, &dest);
+		}
+
+
+		SDL_RenderPresent(r);
+		///
+
 		SDL_Delay(16);
 		gc.clock.atFrameEnd();
 	}

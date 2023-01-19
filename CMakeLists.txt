@@ -9,6 +9,8 @@ project ("Traum")
 find_package(Boost REQUIRED COMPONENTS chrono log locale)
 find_package(Fmt REQUIRED CONFIG)
 find_package(SDL2 REQUIRED)
+find_package(SDL2_ttf REQUIRED CONFIG)
+
 
 
 add_executable (Traum 
@@ -21,6 +23,7 @@ add_executable (Traum
 
 target_link_libraries(Traum PRIVATE 
 	SDL2::SDL2 
+	$<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
 	Boost::log_setup 
 	Boost::log 
 	Boost::locale
