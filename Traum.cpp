@@ -14,6 +14,23 @@
 
 using fmt::format;
 
+// Credits:
+// https://swarminglogic.com/scribble/2015_05_smartwrappers
+namespace sdl2 {
+struct SDL_Deleter {
+	void operator()(SDL_Surface* ptr) {
+		if (ptr) SDL_FreeSurface(ptr);
+	}
+
+	void operator()(SDL_Texture* ptr) {
+		if (ptr) SDL_DestroyTexture(ptr);
+	}
+};
+
+using SurfacePtr = std::unique_ptr<SDL_Surface, SDL_Deleter>;
+using TexturePtr = std::unique_ptr<SDL_Texture, SDL_Deleter>;
+}
+
 int main(int argc, char* argv[]) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
 		BOOST_LOG_TRIVIAL(fatal) << format("SDL_Init Error: {}", SDL_GetError());
@@ -114,19 +131,18 @@ int main(int argc, char* argv[]) {
 				color = { 255, 255, 255 };
 			}
 
-			SDL_Surface* surface = TTF_RenderText_Solid(menuFont, menuEntry.c_str(), color);
+			sdl2::SurfacePtr surface{TTF_RenderText_Solid(menuFont, menuEntry.c_str(), color)};
 
 			if (!surface) {
 				BOOST_LOG_TRIVIAL(fatal) << format("Cannot create surface: {}", TTF_GetError());
 				return 1;
 			}
 
-			SDL_Texture* texture = SDL_CreateTextureFromSurface(r, surface);
+			sdl2::TexturePtr texture{ SDL_CreateTextureFromSurface(r, surface.get()) };
 
 			SDL_Rect dest = { 20, i * surface->h + 20, surface->w, surface->h };
-			SDL_RenderCopy(r, texture, NULL, &dest);
+			SDL_RenderCopy(r, texture.get(), NULL, &dest);
 		}
-
 
 		SDL_RenderPresent(r);
 		///
