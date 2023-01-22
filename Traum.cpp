@@ -98,6 +98,7 @@ int main(int argc, char* argv[]) {
 					gameStateMachine.process_event(inputEvent_DPadUp{});
 					break;
 				case SDL_CONTROLLER_BUTTON_A:
+					gameStateMachine.process_event(inputEvent_ButtonA{});
 					break;
 				}
 			case SDL_CONTROLLERBUTTONUP:
@@ -125,13 +126,13 @@ int main(int argc, char* argv[]) {
 			auto menuEntry = gc.menu.entries[i];
 
 			SDL_Color color;
-			if (gc.menu.index == i) {
+			if (menuEntry.is_selected) {
 				color = { 238, 75, 43 };
 			} else {
 				color = { 255, 255, 255 };
 			}
 
-			sdl2::SurfacePtr surface{TTF_RenderText_Solid(menuFont, menuEntry.c_str(), color)};
+			sdl2::SurfacePtr surface{TTF_RenderText_Solid(menuFont, menuEntry.id.c_str(), color)};
 
 			if (!surface) {
 				BOOST_LOG_TRIVIAL(fatal) << format("Cannot create surface: {}", TTF_GetError());

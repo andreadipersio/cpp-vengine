@@ -36,12 +36,14 @@ struct menuState : sc::simple_state<menuState, GameStateMachine> {
 		sc::custom_reaction<inputEvent_StartButton>,
 		sc::custom_reaction<inputEvent_DPadDown>,
 		sc::custom_reaction<inputEvent_DPadUp>,
+		sc::custom_reaction<inputEvent_ButtonA>,
 		sc::custom_reaction<event_GameQuit>
 	> reactions;
 
 	sc::result react(const inputEvent_StartButton&);
 	sc::result react(const inputEvent_DPadDown&);
 	sc::result react(const inputEvent_DPadUp&);
+	sc::result react(const inputEvent_ButtonA&);
 	sc::result react(const event_GameQuit& event);
 
 	menuState();

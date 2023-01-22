@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <boost/log/trivial.hpp>
 #include <boost/locale.hpp>
 #include <vector>
@@ -8,17 +9,27 @@
 using std::vector, std::string;
 using boost::locale::translate;
 
+struct MenuEntry {
+	string id;
+	bool is_selected;
+};
+
 class Menu {
 public:
 	unsigned int index = 0;
-	const vector<string> entries = { translate("New Game")
-			       										 , translate("Load Game")
-						      							 , translate("Settings")
-								      					 , translate("Quit") };
+	vector<MenuEntry> entries = {
+		{"New Game", true},
+		{"Load Game", false},
+		{"Settings", false},
+		{"Quit Game", false}
+	};
 
-	string nextEntry();
-	string previousEntry();
-	string currentEntry();
+	MenuEntry& nextEntry();
+	MenuEntry& previousEntry();
+	MenuEntry& currentEntry();
+	void select();
 
 	Menu();
 };
+
+std::ostream& operator<<(std::ostream& os, MenuEntry& menuEntry); 

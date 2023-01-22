@@ -11,7 +11,10 @@ sc::result menuState::react(const inputEvent_StartButton& event) {
 sc::result menuState::react(const inputEvent_DPadDown& event) {
 	auto& menu = context<GameStateMachine>().gameContext.menu;
 
-	BOOST_LOG_TRIVIAL(debug) << "From " << menu.currentEntry() << " to " << menu.nextEntry();
+	menu.nextEntry();
+	menu.select();
+
+	BOOST_LOG_TRIVIAL(debug) << menu.currentEntry();
 
 	return forward_event();
 }
@@ -19,7 +22,17 @@ sc::result menuState::react(const inputEvent_DPadDown& event) {
 sc::result menuState::react(const inputEvent_DPadUp& event) {
 	auto& menu = context<GameStateMachine>().gameContext.menu;
 
-	BOOST_LOG_TRIVIAL(debug) << "From " << menu.currentEntry() << " to " << menu.previousEntry();
+	menu.previousEntry();
+	menu.select();
+
+	BOOST_LOG_TRIVIAL(debug) << menu.currentEntry();
+
+	return forward_event();
+}
+
+sc::result menuState::react(const inputEvent_ButtonA& event) {
+	auto& menu = context<GameStateMachine>().gameContext.menu;
+
 
 	return forward_event();
 }
