@@ -14,7 +14,7 @@ sc::result Menu_state::react(const Input_event_dpad_down& event) {
 	menuManager.next_menu_entry();
 	menuManager.select_menu_entry();
 
-	return forward_event();
+	return discard_event();
 }
 
 sc::result Menu_state::react(const Input_event_dpad_up& event) {
@@ -23,7 +23,7 @@ sc::result Menu_state::react(const Input_event_dpad_up& event) {
 	menuManager.prev_menu_entry();
 	menuManager.select_menu_entry();
 
-	return forward_event();
+	return discard_event();
 }
 
 sc::result Menu_state::react(const Input_event_button_a& event) {
@@ -33,7 +33,11 @@ sc::result Menu_state::react(const Input_event_button_a& event) {
 		menuManager.set_menu(subMenu.value());
 	}
 
-	return forward_event();
+	if (auto& next_event = menuManager.get_menu_entry().game_event) {
+		std::visit(VisitEvent(context<Game_state_machine>()), next_event.value());
+	}
+
+	return discard_event();
 }
 
 sc::result Menu_state::react(const Input_event_button_b& event) {
@@ -41,13 +45,13 @@ sc::result Menu_state::react(const Input_event_button_b& event) {
 
 	menuManager.pop_menu();
 
-	return forward_event();
+	return discard_event();
 }
 
 sc::result Menu_state::react(const Event_quit_game& event) {
 	context<Game_state_machine>().gameContext.running = false;
 
-	return forward_event();
+	return discard_event();
 }
 
 Menu_state::Menu_state() {
@@ -60,4 +64,11 @@ sc::result Play_state::react(const Input_event_start_button& event) {
 
 Play_state::Play_state() {
 	BOOST_LOG_TRIVIAL(debug) << "playState";
+}
+
+VisitEvent::VisitEvent(Game_state_machine& state_machine)
+	: state_machine_(state_machine) {};
+
+void VisitEvent::operator()(Event_quit_game& event) {
+	state_machine_.post_event_impl(event);
 }

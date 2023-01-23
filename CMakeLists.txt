@@ -19,7 +19,7 @@ add_executable (Traum
 	"GameContext.h"   
 	"GameState.cpp" 
 	"Menu.cpp"
-)
+ "Events.h")
 
 target_link_libraries(Traum PRIVATE 
 	SDL2::SDL2 

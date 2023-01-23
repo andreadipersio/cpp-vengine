@@ -10,6 +10,7 @@
 
 #include <boost/mpl/list.hpp>
 
+#include "Events.h"
 #include "GameContext.h"
 
 namespace sc = boost::statechart;
@@ -17,14 +18,6 @@ namespace mpl = boost::mpl;
 
 struct Menu_state;
 struct Play_state;
-
-struct Input_event_start_button : sc::event<Input_event_start_button> {};
-struct Input_event_dpad_down: sc::event<Input_event_dpad_down> {};
-struct Input_event_dpad_up: sc::event<Input_event_dpad_up> {};
-struct Input_event_button_a: sc::event<Input_event_button_a> {};
-struct Input_event_button_b: sc::event<Input_event_button_b> {};
-
-struct Event_quit_game : sc::event<Event_quit_game> {};
 
 struct Game_state_machine : sc::state_machine<Game_state_machine, Menu_state> {
 	Game_context& gameContext;
@@ -60,6 +53,14 @@ struct Play_state : sc::simple_state<Play_state, Game_state_machine> {
 	sc::result react(const Input_event_start_button&);
 
 	Play_state();
+};
+
+struct VisitEvent {
+	VisitEvent(Game_state_machine& state_machine);
+	void operator()(Event_quit_game&);
+
+private:
+	Game_state_machine& state_machine_;
 };
 
 // https://github.com/CodeSports/State-Machine-Using-Boost-Statechart/tree/master/Chapter-2

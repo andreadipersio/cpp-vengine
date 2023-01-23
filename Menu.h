@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+#include "Events.h"
+
 using std::array;
 using std::vector;
 using std::string;
@@ -25,6 +27,7 @@ struct Menu_entry {
 	string id;
 	bool is_selected;
 	optional<Menu_id> next_menu;
+	optional<Game_event> game_event;
 };
 
 class Menu {

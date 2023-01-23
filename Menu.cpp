@@ -1,10 +1,10 @@
 #include "Menu.h"
 
 static const vector<Menu_entry> main_menu_entries = {
-	{"New Game", true, nullopt},
-	{"Load Game", false, nullopt},
-	{"Settings", false, MENU_ID_SETTINGS},
-	{"Quit Game", false, nullopt}
+	{"New Game", true, nullopt, nullopt},
+	{"Load Game", false, nullopt, nullopt},
+	{"Settings", false, MENU_ID_SETTINGS, nullopt},
+	{"Quit Game", false, nullopt, Event_quit_game{}}
 };
 
 static const vector<Menu_entry> settings_menu_entries = {
