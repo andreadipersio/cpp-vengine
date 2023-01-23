@@ -58,9 +58,9 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	GameContext gc{};
+	Game_context gc{};
 
-	GameStateMachine gameStateMachine{ gc };
+	Game_state_machine gameStateMachine{ gc };
 	gameStateMachine.initiate();
 
 	while (gc.running) {
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 		while (SDL_PollEvent(&sdlEvent)) {
 			switch (sdlEvent.type) {
 			case SDL_QUIT:
-				gameStateMachine.process_event(event_GameQuit());
+				gameStateMachine.process_event(Event_quit_game());
 				break;
 			case SDL_CONTROLLERDEVICEADDED: {
 				auto controllerId = sdlEvent.cdevice.which;
@@ -89,16 +89,16 @@ int main(int argc, char* argv[]) {
 			case SDL_CONTROLLERBUTTONDOWN:
 				switch (sdlEvent.cbutton.button) {
 				case SDL_CONTROLLER_BUTTON_START:
-					gameStateMachine.process_event(inputEvent_StartButton{});
+					gameStateMachine.process_event(Input_event_start_button{});
 					break;
 				case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-					gameStateMachine.process_event(inputEvent_DPadDown{});
+					gameStateMachine.process_event(Input_event_dpad_down{});
 					break;
 				case SDL_CONTROLLER_BUTTON_DPAD_UP:
-					gameStateMachine.process_event(inputEvent_DPadUp{});
+					gameStateMachine.process_event(Input_event_dpad_up{});
 					break;
 				case SDL_CONTROLLER_BUTTON_A:
-					gameStateMachine.process_event(inputEvent_ButtonA{});
+					gameStateMachine.process_event(Input_event_button_a{});
 					break;
 				}
 			case SDL_CONTROLLERBUTTONUP:
@@ -115,17 +115,17 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		gc.clock.atFrameStart();
+		gc.clock.at_frame_start();
 
 
 		SDL_SetRenderDrawColor(r, 0, 0, 0, 0);
 		SDL_RenderClear(r);
 
 		///
-		for (auto i = 0; i < gc.menu.entries.size(); i++) {
-			auto menuEntry = gc.menu.entries[i];
-
+		auto i = 0;
+		for (auto& menuEntry: gc.menu_manager) {
 			SDL_Color color;
+
 			if (menuEntry.is_selected) {
 				color = { 238, 75, 43 };
 			} else {
@@ -143,13 +143,14 @@ int main(int argc, char* argv[]) {
 
 			SDL_Rect dest = { 20, i * surface->h + 20, surface->w, surface->h };
 			SDL_RenderCopy(r, texture.get(), NULL, &dest);
+			i++;
 		}
 
 		SDL_RenderPresent(r);
 		///
 
 		SDL_Delay(16);
-		gc.clock.atFrameEnd();
+		gc.clock.at_frame_end();
 	}
 
 

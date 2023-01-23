@@ -6,30 +6,30 @@
 
 using namespace std::chrono;
 
-GameClock::GameClock() : frameDelta_(0), fps_(0) {
+Game_clock::Game_clock() : frame_delta_(0), fps_(0) {
 }
 
-void GameClock::atFrameStart() {
-	frameStart_ = steady_clock::now();
+void Game_clock::at_frame_start() {
+	frame_start_ = steady_clock::now();
 }
 
-void GameClock::atFrameEnd() {
-	frameEnd_ = steady_clock::now();
-	frameDelta_ = CalculateFrameDelta();
-	fps_ = CalculateFps();
+void Game_clock::at_frame_end() {
+	frame_end_ = steady_clock::now();
+	frame_delta_ = calculate_frame_delta();
+	fps_ = calculate_fps();
 }
 
-unsigned short int GameClock::fps() const {
+unsigned short int Game_clock::fps() const {
 	return fps_;
 }
 
-nanoseconds GameClock::CalculateFrameDelta() const {
-	return frameEnd_ - frameStart_;
+nanoseconds Game_clock::calculate_frame_delta() const {
+	return frame_end_ - frame_start_;
 }
 
-unsigned short int GameClock::CalculateFps() const {
-	if (frameDelta_ > 0ns) {
-		return (unsigned short int)(1s / frameDelta_);
+unsigned short int Game_clock::calculate_fps() const {
+	if (frame_delta_ > 0ns) {
+		return (unsigned short int)(1s / frame_delta_);
 	} else {
 		return 0;
 	}

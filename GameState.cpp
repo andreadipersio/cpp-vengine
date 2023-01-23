@@ -1,58 +1,63 @@
 #include "GameState.h"
 
-GameStateMachine::GameStateMachine(GameContext& gameContext) : gameContext(gameContext) {
+Game_state_machine::Game_state_machine(Game_context& gameContext) : gameContext(gameContext) {
 	BOOST_LOG_TRIVIAL(debug) << "Welcome to the machine";
+
+	gameContext.menu_manager.set_menu(MENU_ID_MAIN);
 }
 
-sc::result menuState::react(const inputEvent_StartButton& event) {
-	return transit<playState>();
+sc::result Menu_state::react(const Input_event_start_button& event) {
+	return transit<Play_state>();
 }
 
-sc::result menuState::react(const inputEvent_DPadDown& event) {
-	auto& menu = context<GameStateMachine>().gameContext.menu;
+sc::result Menu_state::react(const Input_event_dpad_down& event) {
+	auto& menuManager = context<Game_state_machine>().gameContext.menu_manager;
 
-	menu.nextEntry();
-	menu.select();
+	menuManager.next_menu_entry();
+	menuManager.select_menu_entry();
 
-	BOOST_LOG_TRIVIAL(debug) << menu.currentEntry();
+	BOOST_LOG_TRIVIAL(debug) << menuManager.get_menu_entry();
 
 	return forward_event();
 }
 
-sc::result menuState::react(const inputEvent_DPadUp& event) {
-	auto& menu = context<GameStateMachine>().gameContext.menu;
+sc::result Menu_state::react(const Input_event_dpad_up& event) {
+	auto& menuManager = context<Game_state_machine>().gameContext.menu_manager;
 
-	menu.previousEntry();
-	menu.select();
+	menuManager.prev_menu_entry();
+	menuManager.select_menu_entry();
 
-	BOOST_LOG_TRIVIAL(debug) << menu.currentEntry();
-
-	return forward_event();
-}
-
-sc::result menuState::react(const inputEvent_ButtonA& event) {
-	auto& menu = context<GameStateMachine>().gameContext.menu;
-
+	BOOST_LOG_TRIVIAL(debug) << menuManager.get_menu_entry();
 
 	return forward_event();
 }
 
-sc::result menuState::react(const event_GameQuit& event) {
-	context<GameStateMachine>().gameContext.running = false;
+sc::result Menu_state::react(const Input_event_button_a& event) {
+	auto& menuManager = context<Game_state_machine>().gameContext.menu_manager;
+
+	if (auto subMenu = menuManager.has_submenu()) {
+		menuManager.set_menu(subMenu.value());
+	}
+
+	return forward_event();
+}
+
+sc::result Menu_state::react(const Event_quit_game& event) {
+	context<Game_state_machine>().gameContext.running = false;
 
 	BOOST_LOG_TRIVIAL(debug) << "handling event_GameQuit";
 
 	return forward_event();
 }
 
-menuState::menuState() {
+Menu_state::Menu_state() {
 	BOOST_LOG_TRIVIAL(debug) << "menuState";
 }
 
-sc::result playState::react(const inputEvent_StartButton& event) {
-	return transit<menuState>();
+sc::result Play_state::react(const Input_event_start_button& event) {
+	return transit<Menu_state>();
 }
 
-playState::playState() {
+Play_state::Play_state() {
 	BOOST_LOG_TRIVIAL(debug) << "playState";
 }

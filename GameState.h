@@ -15,48 +15,48 @@
 namespace sc = boost::statechart;
 namespace mpl = boost::mpl;
 
-struct menuState;
-struct playState;
+struct Menu_state;
+struct Play_state;
 
-struct inputEvent_StartButton : sc::event<inputEvent_StartButton> {};
-struct inputEvent_DPadDown: sc::event<inputEvent_DPadDown> {};
-struct inputEvent_DPadUp: sc::event<inputEvent_DPadUp> {};
-struct inputEvent_ButtonA: sc::event<inputEvent_ButtonA> {};
+struct Input_event_start_button : sc::event<Input_event_start_button> {};
+struct Input_event_dpad_down: sc::event<Input_event_dpad_down> {};
+struct Input_event_dpad_up: sc::event<Input_event_dpad_up> {};
+struct Input_event_button_a: sc::event<Input_event_button_a> {};
 
-struct event_GameQuit : sc::event<event_GameQuit> {};
+struct Event_quit_game : sc::event<Event_quit_game> {};
 
-struct GameStateMachine : sc::state_machine<GameStateMachine, menuState> {
-	GameContext& gameContext;
+struct Game_state_machine : sc::state_machine<Game_state_machine, Menu_state> {
+	Game_context& gameContext;
 
-	GameStateMachine(GameContext&);
+	Game_state_machine(Game_context&);
 };
 
-struct menuState : sc::simple_state<menuState, GameStateMachine> {
+struct Menu_state : sc::simple_state<Menu_state, Game_state_machine> {
 	typedef mpl::list<
-		sc::custom_reaction<inputEvent_StartButton>,
-		sc::custom_reaction<inputEvent_DPadDown>,
-		sc::custom_reaction<inputEvent_DPadUp>,
-		sc::custom_reaction<inputEvent_ButtonA>,
-		sc::custom_reaction<event_GameQuit>
+		sc::custom_reaction<Input_event_start_button>,
+		sc::custom_reaction<Input_event_dpad_down>,
+		sc::custom_reaction<Input_event_dpad_up>,
+		sc::custom_reaction<Input_event_button_a>,
+		sc::custom_reaction<Event_quit_game>
 	> reactions;
 
-	sc::result react(const inputEvent_StartButton&);
-	sc::result react(const inputEvent_DPadDown&);
-	sc::result react(const inputEvent_DPadUp&);
-	sc::result react(const inputEvent_ButtonA&);
-	sc::result react(const event_GameQuit& event);
+	sc::result react(const Input_event_start_button&);
+	sc::result react(const Input_event_dpad_down&);
+	sc::result react(const Input_event_dpad_up&);
+	sc::result react(const Input_event_button_a&);
+	sc::result react(const Event_quit_game& event);
 
-	menuState();
+	Menu_state();
 };
 
-struct playState : sc::simple_state<playState, GameStateMachine> {
+struct Play_state : sc::simple_state<Play_state, Game_state_machine> {
 	typedef  mpl::list<
-		sc::custom_reaction<inputEvent_StartButton>
+		sc::custom_reaction<Input_event_start_button>
 	> reactions;
 
-	sc::result react(const inputEvent_StartButton&);
+	sc::result react(const Input_event_start_button&);
 
-	playState();
+	Play_state();
 };
 
 // https://github.com/CodeSports/State-Machine-Using-Boost-Statechart/tree/master/Chapter-2

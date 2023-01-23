@@ -6,14 +6,14 @@
 #include "Menu.h"
 #include "GameClock.h"
 
-struct GameContext {
+struct Game_context {
 	std::map<int32_t, SDL_GameController*> controllers;
-	GameClock clock;
+	Game_clock clock;
 	bool running;
-	Menu& menu;
+	Menu_manager& menu_manager;
 
-	GameContext()
-		: running(true), menu(*new Menu) {};
+	Game_context()
+		: running(true), menu_manager(*new Menu_manager) {};
 };
 
 
