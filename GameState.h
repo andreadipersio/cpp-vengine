@@ -22,6 +22,7 @@ struct Input_event_start_button : sc::event<Input_event_start_button> {};
 struct Input_event_dpad_down: sc::event<Input_event_dpad_down> {};
 struct Input_event_dpad_up: sc::event<Input_event_dpad_up> {};
 struct Input_event_button_a: sc::event<Input_event_button_a> {};
+struct Input_event_button_b: sc::event<Input_event_button_b> {};
 
 struct Event_quit_game : sc::event<Event_quit_game> {};
 
@@ -37,6 +38,7 @@ struct Menu_state : sc::simple_state<Menu_state, Game_state_machine> {
 		sc::custom_reaction<Input_event_dpad_down>,
 		sc::custom_reaction<Input_event_dpad_up>,
 		sc::custom_reaction<Input_event_button_a>,
+		sc::custom_reaction<Input_event_button_b>,
 		sc::custom_reaction<Event_quit_game>
 	> reactions;
 
@@ -44,6 +46,7 @@ struct Menu_state : sc::simple_state<Menu_state, Game_state_machine> {
 	sc::result react(const Input_event_dpad_down&);
 	sc::result react(const Input_event_dpad_up&);
 	sc::result react(const Input_event_button_a&);
+	sc::result react(const Input_event_button_b&);
 	sc::result react(const Event_quit_game& event);
 
 	Menu_state();

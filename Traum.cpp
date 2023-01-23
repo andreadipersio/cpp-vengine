@@ -17,7 +17,7 @@ using fmt::format;
 // Credits:
 // https://swarminglogic.com/scribble/2015_05_smartwrappers
 namespace sdl2 {
-struct SDL_Deleter {
+struct SDL_deleter {
 	void operator()(SDL_Surface* ptr) {
 		if (ptr) SDL_FreeSurface(ptr);
 	}
@@ -27,8 +27,8 @@ struct SDL_Deleter {
 	}
 };
 
-using SurfacePtr = std::unique_ptr<SDL_Surface, SDL_Deleter>;
-using TexturePtr = std::unique_ptr<SDL_Texture, SDL_Deleter>;
+using Surface_ptr = std::unique_ptr<SDL_Surface, SDL_deleter>;
+using Texture_ptr = std::unique_ptr<SDL_Texture, SDL_deleter>;
 }
 
 int main(int argc, char* argv[]) {
@@ -100,6 +100,9 @@ int main(int argc, char* argv[]) {
 				case SDL_CONTROLLER_BUTTON_A:
 					gameStateMachine.process_event(Input_event_button_a{});
 					break;
+				case SDL_CONTROLLER_BUTTON_B:
+					gameStateMachine.process_event(Input_event_button_b{});
+					break;
 				}
 			case SDL_CONTROLLERBUTTONUP:
 				break;
@@ -132,14 +135,14 @@ int main(int argc, char* argv[]) {
 				color = { 255, 255, 255 };
 			}
 
-			sdl2::SurfacePtr surface{TTF_RenderText_Solid(menuFont, menuEntry.id.c_str(), color)};
+			sdl2::Surface_ptr surface{TTF_RenderText_Solid(menuFont, menuEntry.id.c_str(), color)};
 
 			if (!surface) {
 				BOOST_LOG_TRIVIAL(fatal) << format("Cannot create surface: {}", TTF_GetError());
 				return 1;
 			}
 
-			sdl2::TexturePtr texture{ SDL_CreateTextureFromSurface(r, surface.get()) };
+			sdl2::Texture_ptr texture{ SDL_CreateTextureFromSurface(r, surface.get()) };
 
 			SDL_Rect dest = { 20, i * surface->h + 20, surface->w, surface->h };
 			SDL_RenderCopy(r, texture.get(), NULL, &dest);

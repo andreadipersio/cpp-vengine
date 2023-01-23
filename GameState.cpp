@@ -1,8 +1,6 @@
 #include "GameState.h"
 
 Game_state_machine::Game_state_machine(Game_context& gameContext) : gameContext(gameContext) {
-	BOOST_LOG_TRIVIAL(debug) << "Welcome to the machine";
-
 	gameContext.menu_manager.set_menu(MENU_ID_MAIN);
 }
 
@@ -16,8 +14,6 @@ sc::result Menu_state::react(const Input_event_dpad_down& event) {
 	menuManager.next_menu_entry();
 	menuManager.select_menu_entry();
 
-	BOOST_LOG_TRIVIAL(debug) << menuManager.get_menu_entry();
-
 	return forward_event();
 }
 
@@ -26,8 +22,6 @@ sc::result Menu_state::react(const Input_event_dpad_up& event) {
 
 	menuManager.prev_menu_entry();
 	menuManager.select_menu_entry();
-
-	BOOST_LOG_TRIVIAL(debug) << menuManager.get_menu_entry();
 
 	return forward_event();
 }
@@ -42,10 +36,16 @@ sc::result Menu_state::react(const Input_event_button_a& event) {
 	return forward_event();
 }
 
+sc::result Menu_state::react(const Input_event_button_b& event) {
+	auto& menuManager = context<Game_state_machine>().gameContext.menu_manager;
+
+	menuManager.pop_menu();
+
+	return forward_event();
+}
+
 sc::result Menu_state::react(const Event_quit_game& event) {
 	context<Game_state_machine>().gameContext.running = false;
-
-	BOOST_LOG_TRIVIAL(debug) << "handling event_GameQuit";
 
 	return forward_event();
 }

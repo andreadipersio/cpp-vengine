@@ -36,10 +36,11 @@ public:
 
 	unsigned int index = 0;
 
+	Menu_id id;
 	vector<Menu_entry> entries;
 
 public:
-	Menu(vector<Menu_entry>);
+	Menu(Menu_id, vector<Menu_entry>);
 };
 
 class Menu_manager {
@@ -55,10 +56,14 @@ public:
 	Menu_entry& get_menu_entry();
 
 	void set_menu(Menu_id menuId);
+	void push_menu(Menu_id menuId);
+	void pop_menu();
+
 	optional<Menu_id> has_submenu();
 
 private:
 	array<Menu*, MENU_COUNT> menus_;
+	vector<Menu*> breadcrumbs_;
 
 	Menu* current_menu_;
 };
