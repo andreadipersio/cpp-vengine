@@ -1,44 +1,26 @@
-﻿#include <fmt/core.h>
+﻿#include <array>
 #include <iostream>
+#include <utility>
+
+#include <fmt/core.h>
 #include <boost/log/trivial.hpp>
 
-#include <utility>
-#include <array>
-
 #define SDL_MAIN_HANDLED
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
 #include "GameContext.h"
 #include "GameState.h"
 
+#include "SDL.h"
+
 using fmt::format;
 
-// Credits:
-// https://swarminglogic.com/scribble/2015_05_smartwrappers
-namespace sdl2 {
-struct SDL_deleter {
-	void operator()(SDL_Surface* ptr) {
-		if (ptr) SDL_FreeSurface(ptr);
-	}
-
-	void operator()(SDL_Texture* ptr) {
-		if (ptr) SDL_DestroyTexture(ptr);
-	}
-};
-
-using Surface_ptr = std::unique_ptr<SDL_Surface, SDL_deleter>;
-using Texture_ptr = std::unique_ptr<SDL_Texture, SDL_deleter>;
-}
-
 int main(int argc, char* argv[]) {
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
-		BOOST_LOG_TRIVIAL(fatal) << format("SDL_Init Error: {}", SDL_GetError());
-	}
+	Game_context gc{};
 
-	if (TTF_Init() != 0) {
-		BOOST_LOG_TRIVIAL(fatal) << format("TTF_Init Error: {}", TTF_GetError());
-	}
+	Game_state_machine gameStateMachine{ gc };
+	gameStateMachine.initiate();
+
+	sdl2::SDL_context sdl_ctx = sdl2::make_context_or_throw(800, 600);
 
 	TTF_Font* menuFont = TTF_OpenFont("F:/projects/Traum/Traum/MenuFont.ttf", 24);
 
@@ -46,22 +28,6 @@ int main(int argc, char* argv[]) {
 		BOOST_LOG_TRIVIAL(fatal) << format("Cannot load font: {}", TTF_GetError());
 		return 1;
 	}
-
-
-	SDL_Window* win = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED,
-																		 SDL_WINDOWPOS_CENTERED, 800, 600, 0);
-
-	SDL_Renderer* r = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-
-	if (!r) {
-		BOOST_LOG_TRIVIAL(fatal) << format("SDL_CreateRenderer Error: {}", SDL_GetError());
-		return 1;
-	}
-
-	Game_context gc{};
-
-	Game_state_machine gameStateMachine{ gc };
-	gameStateMachine.initiate();
 
 	while (gc.running) {
 		SDL_Event sdlEvent;
@@ -121,8 +87,8 @@ int main(int argc, char* argv[]) {
 		gc.clock.at_frame_start();
 
 
-		SDL_SetRenderDrawColor(r, 0, 0, 0, 0);
-		SDL_RenderClear(r);
+		SDL_SetRenderDrawColor(sdl_ctx.r.get(), 0, 0, 0, 0);
+		SDL_RenderClear(sdl_ctx.r.get());
 
 		///
 		auto i = 0;
@@ -142,23 +108,20 @@ int main(int argc, char* argv[]) {
 				return 1;
 			}
 
-			sdl2::Texture_ptr texture{ SDL_CreateTextureFromSurface(r, surface.get()) };
+			sdl2::Texture_ptr texture{ SDL_CreateTextureFromSurface(sdl_ctx.r.get(), surface.get())};
 
 			SDL_Rect dest = { 20, i * surface->h + 20, surface->w, surface->h };
-			SDL_RenderCopy(r, texture.get(), NULL, &dest);
+			SDL_RenderCopy(sdl_ctx.r.get(), texture.get(), NULL, &dest);
 			i++;
 		}
 
-		SDL_RenderPresent(r);
+		SDL_RenderPresent(sdl_ctx.r.get());
 		///
 
 		SDL_Delay(16);
 		gc.clock.at_frame_end();
 	}
 
-
-
-	SDL_DestroyWindow(win);
 	SDL_Quit();
 
 	return 0;
