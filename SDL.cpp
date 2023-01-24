@@ -18,6 +18,10 @@ void SDL_deleter::operator()(SDL_Texture* ptr) {
 	if (ptr) SDL_DestroyTexture(ptr);
 }
 
+void SDL_deleter::operator()(TTF_Font* ptr) {
+	if (ptr) TTF_CloseFont(ptr);
+}
+
 SDL_context make_context_or_throw(uint8_t width, uint8_t height) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
 		throw std::runtime_error(format("SDL_Init Error: {}", SDL_GetError()));
@@ -40,9 +44,16 @@ SDL_context make_context_or_throw(uint8_t width, uint8_t height) {
 		throw std::runtime_error(format("SDL_CreateRenderer Error: {}", SDL_GetError()));
 	}
 
+	Font_ptr menuFont{TTF_OpenFont("F:/projects/Traum/Traum/MenuFont.ttf", 24)};
+
+	if (!menuFont) {
+		throw std::runtime_error(format("Cannot load font: {}", TTF_GetError()));
+	}
+
 	SDL_context context{};
 	context.win = std::move(win);
 	context.r = std::move(r);
+	context.fonts[MENU_FONT] = std::move(menuFont);
 
 	return context;
 }

@@ -22,13 +22,6 @@ int main(int argc, char* argv[]) {
 
 	sdl2::SDL_context sdl_ctx = sdl2::make_context_or_throw(800, 600);
 
-	TTF_Font* menuFont = TTF_OpenFont("F:/projects/Traum/Traum/MenuFont.ttf", 24);
-
-	if (!menuFont) {
-		BOOST_LOG_TRIVIAL(fatal) << format("Cannot load font: {}", TTF_GetError());
-		return 1;
-	}
-
 	while (gc.running) {
 		SDL_Event sdlEvent;
 
@@ -101,7 +94,9 @@ int main(int argc, char* argv[]) {
 				color = { 255, 255, 255 };
 			}
 
-			sdl2::Surface_ptr surface{TTF_RenderText_Solid(menuFont, menuEntry.id.c_str(), color)};
+			auto font = sdl_ctx.fonts[sdl2::MENU_FONT].get();
+
+			sdl2::Surface_ptr surface{TTF_RenderText_Solid(font, menuEntry.id.c_str(), color)};
 
 			if (!surface) {
 				BOOST_LOG_TRIVIAL(fatal) << format("Cannot create surface: {}", TTF_GetError());
