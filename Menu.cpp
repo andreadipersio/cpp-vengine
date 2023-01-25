@@ -117,4 +117,3 @@ std::ostream& operator<<(std::ostream& os, Menu_entry& menu_entry) {
 	else
 		return os << "Menu Entry: " << menu_entry.id;
 }
-

@@ -7,8 +7,11 @@
 #include <optional>
 #include <string>
 #include <vector>
+#include <variant>
 
 #include "Events.h"
+#include "MenuWidget.h"
+#include "SDL.h"
 
 using std::array;
 using std::vector;
@@ -72,3 +75,4 @@ private:
 };
 
 std::ostream& operator<<(std::ostream& os, Menu_entry& menuEntry);
+

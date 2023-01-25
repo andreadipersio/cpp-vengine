@@ -4,6 +4,7 @@
 #include <memory>
 #include <stdexcept>
 
+#include <boost/log/trivial.hpp>
 #include <fmt/core.h>
 
 #define SDL_MAIN_HANDLED
@@ -17,10 +18,11 @@ using fmt::format;
 namespace sdl2 {
 
 enum Font {
-	MENU_FONT
+	MENU_BIG_FONT,
+	MENU_MEDIUM_FONT
 };
 
-constexpr uint8_t FONTS_COUNT = 1;
+constexpr uint8_t FONTS_COUNT = 2;
 
 struct SDL_deleter {
 	void operator()(SDL_Window* ptr);
@@ -41,9 +43,11 @@ struct SDL_context {
 	Renderer_ptr r;
 
 	std::array<Font_ptr, FONTS_COUNT> fonts;
+
+	void apply_config_change(uint16_t, uint16_t);
 };
 
-SDL_context make_context_or_throw(uint8_t width, uint8_t height);
+SDL_context make_context_or_throw(uint16_t width, uint16_t height);
 }
 
 

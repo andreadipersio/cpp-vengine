@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
 				color = { 255, 255, 255 };
 			}
 
-			auto font = sdl_ctx.fonts[sdl2::MENU_FONT].get();
+			auto font = sdl_ctx.fonts[sdl2::MENU_BIG_FONT].get();
 
 			sdl2::Surface_ptr surface{TTF_RenderText_Solid(font, menuEntry.id.c_str(), color)};
 
@@ -107,6 +107,7 @@ int main(int argc, char* argv[]) {
 
 			SDL_Rect dest = { 20, i * surface->h + 20, surface->w, surface->h };
 			SDL_RenderCopy(sdl_ctx.r.get(), texture.get(), NULL, &dest);
+
 			i++;
 		}
 

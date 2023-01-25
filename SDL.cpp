@@ -22,7 +22,28 @@ void SDL_deleter::operator()(TTF_Font* ptr) {
 	if (ptr) TTF_CloseFont(ptr);
 }
 
-SDL_context make_context_or_throw(uint8_t width, uint8_t height) {
+void SDL_context::apply_config_change(uint16_t width, uint16_t height) {
+	r.reset();
+	win.reset();
+
+	Window_ptr new_win{ SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED,
+																	 SDL_WINDOWPOS_CENTERED, width, height, 0) };
+
+	if (!new_win) {
+		throw std::runtime_error{format("SDL_CreateWindow Error: {}", SDL_GetError())};
+	}
+
+	Renderer_ptr new_r{ SDL_CreateRenderer(new_win.get(), -1, SDL_RENDERER_ACCELERATED) };
+
+	if (!new_r) {
+		throw std::runtime_error{format("SDL_CreateRenderer Error: {}", SDL_GetError())};
+	}
+
+	win = std::move(new_win);
+	r = std::move(new_r);
+}
+
+SDL_context make_context_or_throw(uint16_t width, uint16_t height) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
 		throw std::runtime_error(format("SDL_Init Error: {}", SDL_GetError()));
 	}
@@ -32,10 +53,10 @@ SDL_context make_context_or_throw(uint8_t width, uint8_t height) {
 	}
 
 	Window_ptr win{ SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED,
-																		 SDL_WINDOWPOS_CENTERED, 800, 600, 0) };
+																		 SDL_WINDOWPOS_CENTERED, width, height, 0) };
 
 	if (!win) {
-		throw std::runtime_error(format("SDL_CreateWindow Error: {}", SDL_GetError()));
+		throw std::runtime_error{format("SDL_CreateWindow Error: {}", SDL_GetError())};
 	}
 
 	Renderer_ptr r{ SDL_CreateRenderer(win.get(), -1, SDL_RENDERER_ACCELERATED) };
@@ -44,16 +65,18 @@ SDL_context make_context_or_throw(uint8_t width, uint8_t height) {
 		throw std::runtime_error(format("SDL_CreateRenderer Error: {}", SDL_GetError()));
 	}
 
-	Font_ptr menuFont{TTF_OpenFont("F:/projects/Traum/Traum/MenuFont.ttf", 24)};
+	Font_ptr menuFont1{TTF_OpenFont("F:/projects/Traum/Traum/MenuFont.ttf", 24)};
+	Font_ptr menuFont2{TTF_OpenFont("F:/projects/Traum/Traum/MenuFont.ttf", 18)};
 
-	if (!menuFont) {
+	if (!menuFont1 || !menuFont2) {
 		throw std::runtime_error(format("Cannot load font: {}", TTF_GetError()));
 	}
 
 	SDL_context context{};
 	context.win = std::move(win);
 	context.r = std::move(r);
-	context.fonts[MENU_FONT] = std::move(menuFont);
+	context.fonts[MENU_BIG_FONT] = std::move(menuFont1);
+	context.fonts[MENU_MEDIUM_FONT] = std::move(menuFont2);
 
 	return context;
 }
