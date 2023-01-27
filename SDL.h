@@ -38,7 +38,7 @@ using Surface_ptr = std::unique_ptr<SDL_Surface, SDL_deleter>;
 using Texture_ptr = std::unique_ptr<SDL_Texture, SDL_deleter>;
 using Font_ptr = std::unique_ptr<TTF_Font, SDL_deleter>;
 
-struct SDL_context {
+struct Rendering_context {
 	Window_ptr win;
 	Renderer_ptr r;
 
@@ -47,7 +47,7 @@ struct SDL_context {
 	void apply_config_change(uint16_t, uint16_t);
 };
 
-SDL_context make_context_or_throw(uint16_t width, uint16_t height);
+Rendering_context make_context_or_throw(uint16_t width, uint16_t height);
 }
 
 

@@ -22,7 +22,7 @@ void SDL_deleter::operator()(TTF_Font* ptr) {
 	if (ptr) TTF_CloseFont(ptr);
 }
 
-void SDL_context::apply_config_change(uint16_t width, uint16_t height) {
+void Rendering_context::apply_config_change(uint16_t width, uint16_t height) {
 	r.reset();
 	win.reset();
 
@@ -43,7 +43,7 @@ void SDL_context::apply_config_change(uint16_t width, uint16_t height) {
 	r = std::move(new_r);
 }
 
-SDL_context make_context_or_throw(uint16_t width, uint16_t height) {
+Rendering_context make_context_or_throw(uint16_t width, uint16_t height) {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMECONTROLLER) != 0) {
 		throw std::runtime_error(format("SDL_Init Error: {}", SDL_GetError()));
 	}
@@ -72,7 +72,7 @@ SDL_context make_context_or_throw(uint16_t width, uint16_t height) {
 		throw std::runtime_error(format("Cannot load font: {}", TTF_GetError()));
 	}
 
-	SDL_context context{};
+	Rendering_context context{};
 	context.win = std::move(win);
 	context.r = std::move(r);
 	context.fonts[MENU_BIG_FONT] = std::move(menuFont1);

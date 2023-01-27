@@ -1,16 +1,19 @@
 #include "Menu.h"
 
+static const vector<string> resolution_choices = { "640x480", "800x600", "1024x768" };
+static Menu_widget_choice resolution_widget{resolution_choices};
+
 static const vector<Menu_entry> main_menu_entries = {
 	{"New Game", true, nullopt, nullopt},
 	{"Load Game", false, nullopt, nullopt},
 	{"Settings", false, MENU_ID_SETTINGS, nullopt},
-	{"Quit Game", false, nullopt, Event_quit_game{}}
+	{"Quit Game", false, nullopt, Game_event_quit{}}
 };
 
 static const vector<Menu_entry> settings_menu_entries = {
-	{"Resolution", true, nullopt},
-	{"Language", false, nullopt},
-	{"Controls", false, nullopt},
+	{"Resolution", true, nullopt, nullopt, Menu_widget{&resolution_widget}},
+	{"Language", false, nullopt, nullopt},
+	{"Controls", false, nullopt, nullopt},
 	{"Back", false, MENU_ID_MAIN}
 };
 

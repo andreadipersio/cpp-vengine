@@ -31,6 +31,7 @@ struct Menu_entry {
 	bool is_selected;
 	optional<Menu_id> next_menu;
 	optional<Game_event> game_event;
+	optional<Menu_widget> widget;
 };
 
 class Menu {

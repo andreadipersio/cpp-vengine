@@ -10,8 +10,15 @@ using std::vector;
 
 class Menu_widget_choice {
 public:
-	vector<string> choices_ = { "640x480", "800x600", "1024x768" };
+	Menu_widget_choice(vector<string> choices);
+
+	string current_choice();
+	void next_choice();
+	void prev_choice();
+
+private:
+	vector<string> choices_;
 	uint16_t index_ = 0;
 };
 
-using Menu_widget = variant<Menu_widget_choice>;
+using Menu_widget = variant<Menu_widget_choice*>;

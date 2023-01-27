@@ -16,12 +16,13 @@ find_package(SDL2_ttf REQUIRED CONFIG)
 add_executable (Traum 
 	"Traum.cpp"  
 	"GameClock.cpp" 
-	"GameContext.h"   
+	"GameContext.cpp"
 	"GameState.cpp" 
 	"Menu.cpp"
     "Events.h" 
 	"SDL.cpp"
-
+	"MenuWidget.cpp"
+    "Events.cpp"
 )
 
 target_link_libraries(Traum PRIVATE 

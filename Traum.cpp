@@ -4,6 +4,7 @@
 
 #include <fmt/core.h>
 #include <boost/log/trivial.hpp>
+#include <variant>
 
 #define SDL_MAIN_HANDLED
 
@@ -20,15 +21,22 @@ int main(int argc, char* argv[]) {
 	Game_state_machine gameStateMachine{ gc };
 	gameStateMachine.initiate();
 
-	sdl2::SDL_context sdl_ctx = sdl2::make_context_or_throw(800, 600);
+	sdl2::Rendering_context sdl_ctx = sdl2::make_context_or_throw(gc.settings.resolution_width, 
+																																gc.settings.resolution_height);
 
 	while (gc.running) {
+		if (gc.settings.dirty) {
+			sdl_ctx.apply_config_change(gc.settings.resolution_width, 
+																	gc.settings.resolution_height);
+			gc.settings.dirty = false;
+		}
+
 		SDL_Event sdlEvent;
 
 		while (SDL_PollEvent(&sdlEvent)) {
 			switch (sdlEvent.type) {
 			case SDL_QUIT:
-				gameStateMachine.process_event(Event_quit_game());
+				gameStateMachine.process_event(Game_event_quit());
 				break;
 			case SDL_CONTROLLERDEVICEADDED: {
 				auto controllerId = sdlEvent.cdevice.which;
@@ -50,11 +58,17 @@ int main(int argc, char* argv[]) {
 				case SDL_CONTROLLER_BUTTON_START:
 					gameStateMachine.process_event(Input_event_start_button{});
 					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_UP:
+					gameStateMachine.process_event(Input_event_dpad_up{});
+					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
+					gameStateMachine.process_event(Input_event_dpad_left{});
+					break;
 				case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
 					gameStateMachine.process_event(Input_event_dpad_down{});
 					break;
-				case SDL_CONTROLLER_BUTTON_DPAD_UP:
-					gameStateMachine.process_event(Input_event_dpad_up{});
+				case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
+					gameStateMachine.process_event(Input_event_dpad_right{});
 					break;
 				case SDL_CONTROLLER_BUTTON_A:
 					gameStateMachine.process_event(Input_event_button_a{});
@@ -107,6 +121,18 @@ int main(int argc, char* argv[]) {
 
 			SDL_Rect dest = { 20, i * surface->h + 20, surface->w, surface->h };
 			SDL_RenderCopy(sdl_ctx.r.get(), texture.get(), NULL, &dest);
+
+			if (auto widget = menuEntry.widget) {
+				auto widget_font = sdl_ctx.fonts[sdl2::MENU_MEDIUM_FONT].get();
+
+				std::visit([&](Menu_widget_choice* choice_widget) {
+					sdl2::Surface_ptr widget_surface{ TTF_RenderText_Solid(widget_font, choice_widget->current_choice().c_str(), color)};
+				  sdl2::Texture_ptr widget_texture{ SDL_CreateTextureFromSurface(sdl_ctx.r.get(), widget_surface.get()) };
+
+					SDL_Rect widget_dest = { surface->w + 50, i * widget_surface->h + 25, widget_surface->w, widget_surface->h };
+					SDL_RenderCopy(sdl_ctx.r.get(), widget_texture.get(), NULL, &widget_dest);
+				}, widget.value());
+			}
 
 			i++;
 		}
