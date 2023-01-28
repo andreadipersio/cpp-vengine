@@ -98,8 +98,9 @@ int main(int argc, char* argv[]) {
 		SDL_SetRenderDrawColor(sdl_ctx.r.get(), 0, 0, 0, 0);
 		SDL_RenderClear(sdl_ctx.r.get());
 
-		uint16_t menu_x_padding = 20;
-		sdl2::Render_offset offset{ menu_x_padding, 0 };
+		uint16_t menu_x_top_margin = 20;
+		uint16_t menu_y_top_margin = 20;
+		sdl2::Render_offset offset{ menu_x_top_margin, menu_y_top_margin };
 
 		for (auto& menuEntry : gc.menu_manager) {
 			Menu_entry_render menu_entry_render{ menuEntry };
