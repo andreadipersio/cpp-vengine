@@ -11,6 +11,8 @@
 #include "GameContext.h"
 #include "GameState.h"
 
+#include "MenuWidgetRender.h"
+
 #include "SDL.h"
 
 using fmt::format;
@@ -21,12 +23,12 @@ int main(int argc, char* argv[]) {
 	Game_state_machine gameStateMachine{ gc };
 	gameStateMachine.initiate();
 
-	sdl2::Rendering_context sdl_ctx = sdl2::make_context_or_throw(gc.settings.resolution_width, 
+	sdl2::Rendering_context sdl_ctx = sdl2::make_context_or_throw(gc.settings.resolution_width,
 																																gc.settings.resolution_height);
 
 	while (gc.running) {
 		if (gc.settings.dirty) {
-			sdl_ctx.apply_config_change(gc.settings.resolution_width, 
+			sdl_ctx.apply_config_change(gc.settings.resolution_width,
 																	gc.settings.resolution_height);
 			gc.settings.dirty = false;
 		}
@@ -99,7 +101,7 @@ int main(int argc, char* argv[]) {
 
 		///
 		auto i = 0;
-		for (auto& menuEntry: gc.menu_manager) {
+		for (auto& menuEntry : gc.menu_manager) {
 			SDL_Color color;
 
 			if (menuEntry.is_selected) {
@@ -110,27 +112,23 @@ int main(int argc, char* argv[]) {
 
 			auto font = sdl_ctx.fonts[sdl2::MENU_BIG_FONT].get();
 
-			sdl2::Surface_ptr surface{TTF_RenderText_Solid(font, menuEntry.id.c_str(), color)};
+			sdl2::Surface_ptr surface{ TTF_RenderText_Solid(font, menuEntry.id.c_str(), color) };
 
 			if (!surface) {
 				BOOST_LOG_TRIVIAL(fatal) << format("Cannot create surface: {}", TTF_GetError());
 				return 1;
 			}
 
-			sdl2::Texture_ptr texture{ SDL_CreateTextureFromSurface(sdl_ctx.r.get(), surface.get())};
+			sdl2::Texture_ptr texture{ SDL_CreateTextureFromSurface(sdl_ctx.r.get(), surface.get()) };
 
 			SDL_Rect dest = { 20, i * surface->h + 20, surface->w, surface->h };
 			SDL_RenderCopy(sdl_ctx.r.get(), texture.get(), NULL, &dest);
 
 			if (auto widget = menuEntry.widget) {
-				auto widget_font = sdl_ctx.fonts[sdl2::MENU_MEDIUM_FONT].get();
-
-				std::visit([&](Menu_widget_choice* choice_widget) {
-					sdl2::Surface_ptr widget_surface{ TTF_RenderText_Solid(widget_font, choice_widget->current_choice().c_str(), color)};
-				  sdl2::Texture_ptr widget_texture{ SDL_CreateTextureFromSurface(sdl_ctx.r.get(), widget_surface.get()) };
-
-					SDL_Rect widget_dest = { surface->w + 50, i * widget_surface->h + 25, widget_surface->w, widget_surface->h };
-					SDL_RenderCopy(sdl_ctx.r.get(), widget_texture.get(), NULL, &widget_dest);
+				sdl2::Render_offset offset = { surface->w + 50, dest.y + 5 };
+				std::visit([&sdl_ctx, offset](Menu_widget_choice* widget) {
+					Menu_widget_choice_render widget_renderer{ *widget };
+  				widget_renderer.render(sdl_ctx, offset);
 				}, widget.value());
 			}
 

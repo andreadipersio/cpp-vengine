@@ -48,6 +48,12 @@ struct Rendering_context {
 };
 
 Rendering_context make_context_or_throw(uint16_t width, uint16_t height);
+
+struct Render_offset {
+	uint64_t x;
+	uint64_t y;
+};
 }
+
 
 

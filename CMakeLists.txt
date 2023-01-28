@@ -25,6 +25,7 @@ add_executable (Traum
     "Events.cpp"
 	"MenuState.cpp"
 	"MenuSettingsState.cpp"
+    "MenuWidgetRender.cpp"
 )
 
 target_link_libraries(Traum PRIVATE 
