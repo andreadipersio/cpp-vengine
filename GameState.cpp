@@ -4,9 +4,10 @@ Game_state_machine::Game_state_machine(Game_context& gameContext) : game_context
 	gameContext.menu_manager.set_menu(MENU_ID_MAIN);
 }
 
-sc::result Menu_state::react(const Input_event_start_button& event) {
-	return transit<Play_state>();
-}
+
+//
+// Menu State
+//
 
 sc::result Menu_state::react(const Input_event_dpad_up& event) {
 	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
@@ -17,35 +18,11 @@ sc::result Menu_state::react(const Input_event_dpad_up& event) {
 	return discard_event();
 }
 
-sc::result Menu_state::react(const Input_event_dpad_left& event) {
-	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
-
-	if (auto widget = menuManager.get_menu_entry().widget) {
-		std::visit([](Menu_widget_choice* choice) {
-			choice->prev_choice();
-		}, widget.value());
-	}
-
-	return discard_event();
-}
-
 sc::result Menu_state::react(const Input_event_dpad_down& event) {
 	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
 
 	menuManager.next_menu_entry();
 	menuManager.select_menu_entry();
-
-	return discard_event();
-}
-
-sc::result Menu_state::react(const Input_event_dpad_right& event) {
-	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
-
-	if (auto widget = menuManager.get_menu_entry().widget) {
-		std::visit([](Menu_widget_choice* choice) {
-			choice->next_choice();
-		}, widget.value());
-	}
 
 	return discard_event();
 }
@@ -68,22 +45,6 @@ sc::result Menu_state::react(const Input_event_button_a& event) {
 	return discard_event();
 }
 
-sc::result Menu_state::react(const Input_event_button_b& event) {
-	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
-
-	menuManager.pop_menu();
-
-	return discard_event();
-}
-
-sc::result Menu_state::react(const Menu_event_change_resolution& event) {
-	auto& settings = context<Game_state_machine>().game_context.settings;
-
-	settings.set_resolution(event.width, event.height);
-
-	return discard_event();
-}
-
 sc::result Menu_state::react(const Game_event_quit& event) {
 	context<Game_state_machine>().game_context.running = false;
 
@@ -93,6 +54,95 @@ sc::result Menu_state::react(const Game_event_quit& event) {
 Menu_state::Menu_state() {
 	BOOST_LOG_TRIVIAL(debug) << "menuState";
 }
+
+//
+// Menu Settings State
+//
+
+sc::result Menu_settings_state::react(const Input_event_dpad_up& event) {
+	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
+
+	menuManager.prev_menu_entry();
+	menuManager.select_menu_entry();
+
+	return discard_event();
+}
+
+sc::result Menu_settings_state::react(const Input_event_dpad_left& event) {
+	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
+
+	if (auto widget = menuManager.get_menu_entry().widget) {
+		std::visit([](Menu_widget_choice* choice) {
+			choice->prev_choice();
+		}, widget.value());
+	}
+
+	return discard_event();
+}
+
+sc::result Menu_settings_state::react(const Input_event_dpad_down& event) {
+	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
+
+	menuManager.next_menu_entry();
+	menuManager.select_menu_entry();
+
+	return discard_event();
+}
+
+sc::result Menu_settings_state::react(const Input_event_dpad_right& event) {
+	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
+
+	if (auto widget = menuManager.get_menu_entry().widget) {
+		std::visit([](Menu_widget_choice* choice) {
+			choice->next_choice();
+		}, widget.value());
+	}
+
+	return discard_event();
+}
+
+sc::result Menu_settings_state::react(const Input_event_button_a& event) {
+	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
+
+	if (auto subMenu = menuManager.has_submenu()) {
+		menuManager.set_menu(subMenu.value());
+	}
+
+	if (auto& next_event = menuManager.get_menu_entry().game_event) {
+		std::visit(VisitEvent(context<Game_state_machine>()), next_event.value());
+	}
+
+	if (auto widget = menuManager.get_menu_entry().widget) {
+		std::visit(VisitWidget(context<Game_state_machine>()), widget.value());
+	}
+
+	return discard_event();
+}
+
+sc::result Menu_settings_state::react(const Input_event_button_b& event) {
+	auto& menuManager = context<Game_state_machine>().game_context.menu_manager;
+
+	menuManager.pop_menu();
+
+	return discard_event();
+}
+
+sc::result Menu_settings_state::react(const Menu_event_change_resolution& event) {
+	auto& settings = context<Game_state_machine>().game_context.settings;
+
+	settings.set_resolution(event.width, event.height);
+
+	return discard_event();
+}
+
+Menu_settings_state::Menu_settings_state() {
+	BOOST_LOG_TRIVIAL(debug) << "menuSettingsState";
+}
+
+//
+// Menu End
+//
+
 
 sc::result Play_state::react(const Input_event_start_button& event) {
 	return transit<Menu_state>();
