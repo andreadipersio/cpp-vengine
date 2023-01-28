@@ -13,7 +13,7 @@ class Menu_widget_choice_render {
 public:
 	Menu_widget_choice_render(Menu_widget_choice&);
 
-	void render(Rendering_context&, Render_offset);
+	void operator()(Rendering_context&, Render_offset);
 private:
 	Menu_widget_choice& widget_;
 };

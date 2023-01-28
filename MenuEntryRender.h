@@ -13,7 +13,7 @@ class Menu_entry_render {
 public:
 	Menu_entry_render(Menu_entry&);
 
-	void render(Rendering_context&, Render_offset&);
+	void operator()(Rendering_context&, Render_offset&);
 
 private:
 	Menu_entry& menu_entry_;

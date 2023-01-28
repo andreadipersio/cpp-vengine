@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
 
 		for (auto& menuEntry : gc.menu_manager) {
 			Menu_entry_render menu_entry_render{ menuEntry };
-			menu_entry_render.render(sdl_ctx, offset);
+			menu_entry_render(sdl_ctx, offset);
 		}
 
 		SDL_RenderPresent(sdl_ctx.r.get());

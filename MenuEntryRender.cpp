@@ -3,7 +3,7 @@
 Menu_entry_render::Menu_entry_render(Menu_entry& menu_entry)
 	: menu_entry_(menu_entry) {};
 
-void Menu_entry_render::render(Rendering_context& sdl_ctx, Render_offset& offset) {
+void Menu_entry_render::operator()(Rendering_context& sdl_ctx, Render_offset& offset) {
 	SDL_Color color;
 
 	auto font = sdl_ctx.fonts[sdl2::MENU_BIG_FONT].get();
@@ -18,7 +18,7 @@ void Menu_entry_render::render(Rendering_context& sdl_ctx, Render_offset& offset
 		sdl2::Render_offset offset = { surface->w + 50, dest.y + 5 };
 		std::visit([&sdl_ctx, offset](Menu_widget_choice* widget) {
 			Menu_widget_choice_render widget_renderer{ *widget };
-		widget_renderer.render(sdl_ctx, offset);
+		widget_renderer(sdl_ctx, offset);
 		}, widget.value());
 	}
 
