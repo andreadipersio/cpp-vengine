@@ -3,7 +3,7 @@
 Menu_widget_choice_render::Menu_widget_choice_render(Menu_widget_choice& widget)
 	: widget_(widget) {};
 
-void Menu_widget_choice_render::render(sdl2::Rendering_context& sdl_ctx, Render_offset offset) {
+void Menu_widget_choice_render::render(Rendering_context& sdl_ctx, Render_offset offset) {
 		auto font = sdl_ctx.fonts[sdl2::MENU_MEDIUM_FONT].get();
 		SDL_Color color = { 255, 255, 255 };
 

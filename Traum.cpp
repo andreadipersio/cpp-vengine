@@ -11,7 +11,7 @@
 #include "GameContext.h"
 #include "GameState.h"
 
-#include "MenuWidgetRender.h"
+#include "MenuEntryRender.h"
 
 #include "SDL.h"
 
@@ -95,44 +95,15 @@ int main(int argc, char* argv[]) {
 
 		gc.clock.at_frame_start();
 
-
 		SDL_SetRenderDrawColor(sdl_ctx.r.get(), 0, 0, 0, 0);
 		SDL_RenderClear(sdl_ctx.r.get());
 
-		///
-		auto i = 0;
+		uint16_t menu_x_padding = 20;
+		sdl2::Render_offset offset{ menu_x_padding, 0 };
+
 		for (auto& menuEntry : gc.menu_manager) {
-			SDL_Color color;
-
-			if (menuEntry.is_selected) {
-				color = { 238, 75, 43 };
-			} else {
-				color = { 255, 255, 255 };
-			}
-
-			auto font = sdl_ctx.fonts[sdl2::MENU_BIG_FONT].get();
-
-			sdl2::Surface_ptr surface{ TTF_RenderText_Solid(font, menuEntry.id.c_str(), color) };
-
-			if (!surface) {
-				BOOST_LOG_TRIVIAL(fatal) << format("Cannot create surface: {}", TTF_GetError());
-				return 1;
-			}
-
-			sdl2::Texture_ptr texture{ SDL_CreateTextureFromSurface(sdl_ctx.r.get(), surface.get()) };
-
-			SDL_Rect dest = { 20, i * surface->h + 20, surface->w, surface->h };
-			SDL_RenderCopy(sdl_ctx.r.get(), texture.get(), NULL, &dest);
-
-			if (auto widget = menuEntry.widget) {
-				sdl2::Render_offset offset = { surface->w + 50, dest.y + 5 };
-				std::visit([&sdl_ctx, offset](Menu_widget_choice* widget) {
-					Menu_widget_choice_render widget_renderer{ *widget };
-  				widget_renderer.render(sdl_ctx, offset);
-				}, widget.value());
-			}
-
-			i++;
+			Menu_entry_render menu_entry_render{ menuEntry };
+			menu_entry_render.render(sdl_ctx, offset);
 		}
 
 		SDL_RenderPresent(sdl_ctx.r.get());
