@@ -23,6 +23,8 @@ add_executable (Traum
 	"SDL.cpp"
 	"MenuWidget.cpp"
     "Events.cpp"
+	"MenuState.cpp"
+	"MenuSettingsState.cpp"
 )
 
 target_link_libraries(Traum PRIVATE 
