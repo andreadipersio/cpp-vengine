@@ -29,7 +29,6 @@ const int MENU_COUNT = 2;
 struct Menu_entry {
 	string id;
 	bool is_selected;
-	optional<Menu_id> next_menu;
 	optional<Game_event> game_event;
 	optional<Menu_widget> widget;
 };
@@ -63,14 +62,9 @@ public:
 	Menu_entry& get_menu_entry();
 
 	void set_menu(Menu_id menuId);
-	void push_menu(Menu_id menuId);
-	void pop_menu();
-
-	optional<Menu_id> has_submenu();
 
 private:
 	array<Menu*, MENU_COUNT> menus_;
-	vector<Menu*> breadcrumbs_;
 
 	Menu* current_menu_;
 };

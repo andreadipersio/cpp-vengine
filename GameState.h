@@ -37,12 +37,14 @@ struct Menu_state : sc::simple_state<Menu_state, Game_state_machine> {
 		sc::custom_reaction<Input_event_dpad_up>,
 		sc::custom_reaction<Input_event_dpad_down>,
 		sc::custom_reaction<Input_event_button_a>,
-		sc::custom_reaction<Game_event_quit>
+		sc::custom_reaction<Game_event_quit>,
+		sc::custom_reaction<Menu_event_settings>
 	> reactions;
 
 	sc::result react(const Input_event_dpad_up&);
 	sc::result react(const Input_event_dpad_down&);
 	sc::result react(const Input_event_button_a&);
+	sc::result react(const Menu_event_settings&);
 	sc::result react(const Game_event_quit&);
 
 	Menu_state();
@@ -56,7 +58,8 @@ struct Menu_settings_state : sc::simple_state<Menu_settings_state, Game_state_ma
 		sc::custom_reaction<Input_event_dpad_left>,
 		sc::custom_reaction<Input_event_button_a>,
 		sc::custom_reaction<Input_event_button_b>,
-		sc::custom_reaction<Menu_event_change_resolution>
+		sc::custom_reaction<Menu_event_change_resolution>,
+		sc::custom_reaction<Menu_event_main>
 	> reactions;
 
 	sc::result react(const Input_event_dpad_up&);
@@ -66,6 +69,7 @@ struct Menu_settings_state : sc::simple_state<Menu_settings_state, Game_state_ma
 	sc::result react(const Input_event_button_a&);
 	sc::result react(const Input_event_button_b&);
 	sc::result react(const Menu_event_change_resolution&);
+	sc::result react(const Menu_event_main&);
 
 	Menu_settings_state();
 };
@@ -83,6 +87,8 @@ struct Play_state : sc::simple_state<Play_state, Game_state_machine> {
 struct VisitEvent {
 public:
 	VisitEvent(Game_state_machine&);
+	void operator()(Menu_event_settings&);
+	void operator()(Menu_event_main&);
 	void operator()(Game_event_quit&);
 private:
 	Game_state_machine& state_machine_;

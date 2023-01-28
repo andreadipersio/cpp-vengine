@@ -13,6 +13,10 @@ struct Input_event_dpad_left: sc::event<Input_event_dpad_left> {};
 struct Input_event_button_a: sc::event<Input_event_button_a> {};
 struct Input_event_button_b: sc::event<Input_event_button_b> {};
 
+
+struct Menu_event_settings: sc::event<Menu_event_settings> {};
+struct Menu_event_main: sc::event<Menu_event_main> {};
+
 struct Game_event_quit : sc::event<Game_event_quit> {};
 
 struct Menu_event_change_resolution: sc::event<Menu_event_change_resolution> {
@@ -29,4 +33,7 @@ using Input_event = std::variant< Input_event_start_button
 																, Input_event_button_b 
                                 >;
 
-using Game_event = std::variant<Game_event_quit>;
+using Game_event = std::variant<Game_event_quit
+                               , Menu_event_main
+	                             , Menu_event_settings
+                               >;
