@@ -3,6 +3,9 @@
 static const vector<string> resolution_choices = { "640x480", "800x600", "1024x768" };
 static Menu_widget_choice resolution_widget{resolution_choices};
 
+static const vector<string> language_choices = { "English", "Italiano", "Deutsch" };
+static Menu_widget_choice language_widget{language_choices};
+
 static const vector<Menu_entry> main_menu_entries = {
 	{"New Game", true},
 	{"Load Game", false},
@@ -12,7 +15,7 @@ static const vector<Menu_entry> main_menu_entries = {
 
 static const vector<Menu_entry> settings_menu_entries = {
 	{"Resolution", true, nullopt, Menu_widget{&resolution_widget}},
-	{"Language", false},
+	{"Language", false, nullopt, Menu_widget{&language_widget}},
 	{"Controls", false},
 	{"Back", false, Menu_event_main{}}
 };

@@ -13,6 +13,8 @@ public:
 	Menu_widget_choice(vector<string> choices);
 
 	string current_choice();
+	bool is_first();
+	bool is_last();
 	void next_choice();
 	void prev_choice();
 
