@@ -27,7 +27,7 @@ void Menu_entry_render::operator()(Rendering_context& sdl_ctx, Render_offset& of
 
 SDL_Color Menu_entry_render::text_color() {
 	if (menu_entry_.is_selected) {
-		return { 238, 75, 43 };
+		return { 99, 155, 255 };
 	} else {
 		return{ 255, 255, 255 };
 	}

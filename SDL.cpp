@@ -52,6 +52,10 @@ Rendering_context make_context_or_throw(uint16_t width, uint16_t height) {
 		throw std::runtime_error(format("TTF_Init Error: {}", TTF_GetError()));
 	}
 
+	if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+		throw std::runtime_error(format("IMG_Init Error: {}", IMG_GetError()));
+	}
+
 	Window_ptr win{ SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED,
 																		 SDL_WINDOWPOS_CENTERED, width, height, 0) };
 
@@ -65,8 +69,8 @@ Rendering_context make_context_or_throw(uint16_t width, uint16_t height) {
 		throw std::runtime_error(format("SDL_CreateRenderer Error: {}", SDL_GetError()));
 	}
 
-	Font_ptr menuFont1{TTF_OpenFont("F:/projects/Traum/Traum/MenuFont.ttf", 24)};
-	Font_ptr menuFont2{TTF_OpenFont("F:/projects/Traum/Traum/MenuFont.ttf", 18)};
+	Font_ptr menuFont1{TTF_OpenFont("F:/projects/Traum/Traum/assets/MenuFont.ttf", 24)};
+	Font_ptr menuFont2{TTF_OpenFont("F:/projects/Traum/Traum/assets/MenuFont.ttf", 18)};
 
 	if (!menuFont1 || !menuFont2) {
 		throw std::runtime_error(format("Cannot load font: {}", TTF_GetError()));
