@@ -3,7 +3,7 @@
 Menu_entry_render::Menu_entry_render(Menu_entry& menu_entry)
 	: menu_entry_(menu_entry) {};
 
-void Menu_entry_render::operator()(Rendering_context& sdl_ctx, Render_offset& offset) {
+void Menu_entry_render::operator()(Render_context& sdl_ctx, Render_offset& offset) {
 	SDL_Color color;
 
 	auto font = sdl_ctx.fonts[sdl2::MENU_BIG_FONT].get();

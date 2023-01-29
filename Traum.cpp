@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 	Game_state_machine gameStateMachine{ gc };
 	gameStateMachine.initiate();
 
-	sdl2::Rendering_context sdl_ctx;
+	sdl2::Render_context sdl_ctx;
 
 	try {
 		sdl_ctx = sdl2::make_context_or_throw(gc.settings.resolution_width, gc.settings.resolution_height);
