@@ -1,31 +1,35 @@
 #include "menu_widget.h"
 
-Menu_widget_choice::Menu_widget_choice(vector<string> choices) : choices_(choices) {};
+namespace menu {
 
-bool Menu_widget_choice::is_first() {
+Choice_widget::Choice_widget(vector<string> choices) : choices_(choices) {};
+
+bool Choice_widget::is_first() {
 	return index_ == 0;
 }
 
-bool Menu_widget_choice::is_last() {
+bool Choice_widget::is_last() {
 	return index_ == choices_.size() - 1;
 }
 
-string Menu_widget_choice::current_choice() {
+string Choice_widget::current_choice() {
 	return choices_[index_];
 }
 
-void Menu_widget_choice::next_choice() {
+void Choice_widget::next_choice() {
 	if (is_last()) {
 		index_ = 0;
-	} else { 
+	} else {
 		index_++;
 	}
 }
 
-void Menu_widget_choice::prev_choice() {
+void Choice_widget::prev_choice() {
 	if (is_first()) {
 		index_ = choices_.size() - 1;
-	} else { 
+	} else {
 		index_--;
 	}
+}
+
 }

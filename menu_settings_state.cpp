@@ -13,7 +13,7 @@ sc::result Menu_settings_state::react(const Input_event_dpad_left& event) {
 	auto& menu_manager = context<Game_state_machine>().game_context.menu_manager;
 
 	if (auto widget = menu_manager.get_menu_entry().widget) {
-		std::visit([](Menu_widget_choice* choice) {
+		std::visit([](menu::Choice_widget* choice) {
 			choice->prev_choice();
 		}, widget.value());
 	}
@@ -34,7 +34,7 @@ sc::result Menu_settings_state::react(const Input_event_dpad_right& event) {
 	auto& menu_manager = context<Game_state_machine>().game_context.menu_manager;
 
 	if (auto widget = menu_manager.get_menu_entry().widget) {
-		std::visit([](Menu_widget_choice* choice) {
+		std::visit([](menu::Choice_widget* choice) {
 			choice->next_choice();
 		}, widget.value());
 	}

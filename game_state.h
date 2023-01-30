@@ -97,7 +97,7 @@ private:
 struct VisitWidget {
 public:
 	VisitWidget(Game_state_machine&);
-	void operator()(Menu_widget_choice*);
+	void operator()(menu::Choice_widget*);
 private:
 	Game_state_machine& state_machine_;
 };

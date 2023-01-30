@@ -16,7 +16,7 @@ void Menu_entry_render::operator()(Render_context& sdl_ctx, Render_offset& offse
 
 	if (auto widget = menu_entry_.widget) {
 		sdl2::Render_offset widget_offset = { surface->w + 50, dest.y + 5 };
-		std::visit([&sdl_ctx, widget_offset](Menu_widget_choice* widget) {
+		std::visit([&sdl_ctx, widget_offset](menu::Choice_widget* widget) {
 			Menu_widget_choice_render widget_renderer{ *widget };
 		widget_renderer(sdl_ctx, widget_offset);
 		}, widget.value());

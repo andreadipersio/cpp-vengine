@@ -3,10 +3,10 @@
 namespace menu {
 
 static const vector<string> resolution_choices = { "640x480", "800x600", "1024x768" };
-static Menu_widget_choice resolution_widget{ resolution_choices };
+static Choice_widget resolution_widget{ resolution_choices };
 
 static const vector<string> language_choices = { "English", "Italiano", "Deutsch" };
-static Menu_widget_choice language_widget{ language_choices };
+static Choice_widget language_widget{ language_choices };
 
 static const vector<Menu_entry> main_menu_entries = {
 	{"New Game", true},

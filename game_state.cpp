@@ -30,7 +30,7 @@ void VisitEvent::operator()(Game_event_quit& event) {
 VisitWidget::VisitWidget(Game_state_machine& state_machine)
 	: state_machine_(state_machine) {};
 
-void VisitWidget::operator()(Menu_widget_choice* widget) {
+void VisitWidget::operator()(menu::Choice_widget* widget) {
 	vector<std::tuple<string, uint16_t, uint16_t>> video_modes{
 		{"640x480", 640, 480},
 		{"800x600", 800, 600},

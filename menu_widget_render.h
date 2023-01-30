@@ -13,9 +13,9 @@ using sdl2::Texture_ptr;
 
 class Menu_widget_choice_render {
 public:
-	Menu_widget_choice_render(Menu_widget_choice&);
+	Menu_widget_choice_render(menu::Choice_widget&);
 
 	void operator()(Render_context&, Render_offset);
 private:
-	Menu_widget_choice& widget_;
+	menu::Choice_widget& widget_;
 };

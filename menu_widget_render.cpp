@@ -1,6 +1,6 @@
 #include "menu_widget_render.h"
 
-Menu_widget_choice_render::Menu_widget_choice_render(Menu_widget_choice& widget)
+Menu_widget_choice_render::Menu_widget_choice_render(menu::Choice_widget& widget)
 	: widget_(widget) {};
 
 void Menu_widget_choice_render::operator()(Render_context& sdl_ctx, Render_offset offset) {

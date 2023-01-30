@@ -8,9 +8,11 @@ using std::string;
 using std::variant;
 using std::vector;
 
-class Menu_widget_choice {
+namespace menu {
+
+class Choice_widget {
 public:
-	Menu_widget_choice(vector<string> choices);
+	Choice_widget(vector<string> choices);
 
 	string current_choice();
 	bool is_first();
@@ -23,4 +25,6 @@ private:
 	uint16_t index_ = 0;
 };
 
-using Menu_widget = variant<Menu_widget_choice*>;
+using Menu_widget = variant<Choice_widget*>;
+
+}
