@@ -11,7 +11,7 @@
 #include "GameContext.h"
 #include "GameState.h"
 
-#include "MenuEntryRender.h"
+#include "MenuRender.h"
 
 #include "SDL.h"
 
@@ -103,6 +103,10 @@ int main(int argc, char* argv[]) {
 
 		gc.clock.at_frame_start();
 
+		//
+		// Rendering
+		//
+
 		SDL_SetRenderDrawColor(sdl_ctx.r.get(), 0, 0, 0, 0);
 		SDL_RenderClear(sdl_ctx.r.get());
 
@@ -115,13 +119,12 @@ int main(int argc, char* argv[]) {
 		uint16_t menu_y_top_margin = 20;
 		sdl2::Render_offset offset{ menu_x_top_margin, menu_y_top_margin };
 
-		for (auto& menuEntry : gc.menu_manager) {
-			Menu_entry_render menu_entry_render{ menuEntry };
-			menu_entry_render(sdl_ctx, offset);
-		}
+		Menu_render menu_render{ gc.menu_manager };
+		menu_render(sdl_ctx, offset);
 
 		SDL_RenderPresent(sdl_ctx.r.get());
-		///
+
+		// End Rendering
 
 		SDL_Delay(16);
 		gc.clock.at_frame_end();
