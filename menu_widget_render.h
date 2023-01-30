@@ -6,10 +6,10 @@
 #include "menu/menu_widget.h"
 #include "sdl.h"
 
-using sdl2::Render_offset;
-using sdl2::Render_context;
-using sdl2::Surface_ptr;
-using sdl2::Texture_ptr;
+using sdl::Render_offset;
+using sdl::Render_context;
+using sdl::Surface_ptr;
+using sdl::Texture_ptr;
 
 class Menu_widget_choice_render {
 public:

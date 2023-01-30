@@ -2,8 +2,8 @@
 #include "menu_entry_render.h"
 #include "sdl.h"
 
-using sdl2::Render_context;
-using sdl2::Render_offset;
+using sdl::Render_context;
+using sdl::Render_offset;
 
 class Menu_render {
 public:

@@ -1,5 +1,7 @@
 #include "game_state.h"
 
+namespace state_machine {
+
 Game_state_machine::Game_state_machine(Game_context& gameContext) : game_context(gameContext) {
 	gameContext.menu_manager.set_menu(menu::MENU_ID_MAIN);
 }
@@ -42,4 +44,6 @@ void VisitWidget::operator()(menu::Choice_widget* widget) {
 		state_machine_.post_event_impl(Menu_event_change_resolution{ width, height });
 		break;
 	}
+}
+
 }

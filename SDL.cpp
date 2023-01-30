@@ -1,6 +1,6 @@
 #include "SDL.h"
 
-namespace sdl2 {
+namespace sdl {
 
 void SDL_deleter::operator()(SDL_Window* ptr) {
 	if (ptr) SDL_DestroyWindow(ptr);

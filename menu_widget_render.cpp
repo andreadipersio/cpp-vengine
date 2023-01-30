@@ -5,7 +5,7 @@ Menu_widget_choice_render::Menu_widget_choice_render(menu::Choice_widget& widget
 
 void Menu_widget_choice_render::operator()(Render_context& sdl_ctx, Render_offset offset) {
 		auto current_choice = widget_.current_choice();
-		auto font = sdl_ctx.fonts[sdl2::MENU_MEDIUM_FONT].get();
+		auto font = sdl_ctx.fonts[sdl::MENU_MEDIUM_FONT].get();
 		SDL_Color active_color = { 255, 255, 255 };
 		SDL_Color inactive_color = { 127, 133, 135 };
 

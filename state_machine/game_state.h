@@ -17,6 +17,8 @@
 #include "../game_context.h"
 #include "../menu/menu_widget.h"
 
+namespace state_machine {
+
 namespace sc = boost::statechart;
 namespace mpl = boost::mpl;
 
@@ -103,3 +105,5 @@ private:
 };
 
 // https://github.com/CodeSports/State-Machine-Using-Boost-Statechart/tree/master/Chapter-2
+
+}

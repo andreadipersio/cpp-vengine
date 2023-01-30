@@ -22,13 +22,13 @@ using fmt::format;
 int main(int argc, char* argv[]) {
 	Game_context gc{};
 
-	Game_state_machine gameStateMachine{ gc };
+	state_machine::Game_state_machine gameStateMachine{ gc };
 	gameStateMachine.initiate();
 
-	sdl2::Render_context sdl_ctx;
+	sdl::Render_context sdl_ctx;
 
 	try {
-		sdl_ctx = sdl2::make_context_or_throw(gc.settings.resolution_width, gc.settings.resolution_height);
+		sdl_ctx = sdl::make_context_or_throw(gc.settings.resolution_width, gc.settings.resolution_height);
 	} catch (std::exception& ex) {
 		BOOST_LOG_TRIVIAL(fatal) << ex.what();
 		return 1;
@@ -110,14 +110,14 @@ int main(int argc, char* argv[]) {
 		SDL_SetRenderDrawColor(sdl_ctx.r.get(), 0, 0, 0, 0);
 		SDL_RenderClear(sdl_ctx.r.get());
 
-		sdl2::Texture_ptr menu_bkg_texture{ IMG_LoadTexture(sdl_ctx.r.get(), "F:/projects/Traum/Traum/assets/MenuBackground.png") };
+		sdl::Texture_ptr menu_bkg_texture{ IMG_LoadTexture(sdl_ctx.r.get(), "F:/projects/Traum/Traum/assets/MenuBackground.png") };
 		SDL_Rect bkg_geometry{ 0, 0, 1024, 768 };
 
 		SDL_RenderCopy(sdl_ctx.r.get(), menu_bkg_texture.get(), NULL, &bkg_geometry);
 
 		uint16_t menu_x_top_margin = 20;
 		uint16_t menu_y_top_margin = 20;
-		sdl2::Render_offset offset{ menu_x_top_margin, menu_y_top_margin };
+		sdl::Render_offset offset{ menu_x_top_margin, menu_y_top_margin };
 
 		Menu_render menu_render{ gc.menu_manager };
 		menu_render(sdl_ctx, offset);

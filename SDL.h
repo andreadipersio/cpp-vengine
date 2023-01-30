@@ -16,7 +16,7 @@ using fmt::format;
 
 // Credits:
 // https://swarminglogic.com/scribble/2015_05_smartwrappers
-namespace sdl2 {
+namespace sdl {
 
 enum Font {
 	MENU_BIG_FONT,

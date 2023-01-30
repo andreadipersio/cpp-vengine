@@ -1,5 +1,7 @@
 #include "game_state.h"
 
+namespace state_machine {
+
 sc::result Menu_settings_state::react(const Input_event_dpad_up& event) {
 	auto& menu_manager = context<Game_state_machine>().game_context.menu_manager;
 
@@ -79,4 +81,6 @@ sc::result Menu_settings_state::react(const Menu_event_main& event) {
 
 Menu_settings_state::Menu_settings_state() {
 	BOOST_LOG_TRIVIAL(debug) << "menuSettingsState";
+}
+
 }
