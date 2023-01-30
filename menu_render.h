@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menu/menu.h"
 #include "menu_entry_render.h"
 #include "sdl.h"
 

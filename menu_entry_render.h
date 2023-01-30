@@ -2,7 +2,7 @@
 
 #include <SDL2/sdl.h>
 
-#include "menu.h"
+#include "menu/menu.h"
 #include "menu_widget_render.h"
 #include "sdl.h"
 

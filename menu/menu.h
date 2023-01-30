@@ -9,9 +9,9 @@
 #include <vector>
 #include <variant>
 
-#include "events.h"
+#include "../events.h"
+#include "../sdl.h"
 #include "menu_widget.h"
-#include "sdl.h"
 
 namespace menu {
 

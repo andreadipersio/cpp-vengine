@@ -3,7 +3,7 @@
 #include <map>
 #include <SDL2/sdl.h>
 
-#include "menu.h"
+#include "menu/menu.h"
 #include "game_clock.h"
 
 struct Game_settings {

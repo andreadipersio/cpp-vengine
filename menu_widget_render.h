@@ -3,7 +3,7 @@
 #include <variant>
 #include <SDL2/sdl.h>
 
-#include "menu_widget.h"
+#include "menu/menu_widget.h"
 #include "sdl.h"
 
 using sdl2::Render_offset;
