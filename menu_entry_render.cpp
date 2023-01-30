@@ -1,6 +1,6 @@
 #include "menu_entry_render.h"
 
-Menu_entry_render::Menu_entry_render(Menu_entry& menu_entry)
+Menu_entry_render::Menu_entry_render(menu::Menu_entry& menu_entry)
 	: menu_entry_(menu_entry) {};
 
 void Menu_entry_render::operator()(Render_context& sdl_ctx, Render_offset& offset) {

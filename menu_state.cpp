@@ -35,7 +35,7 @@ sc::result Menu_state::react(const Input_event_button_a& event) {
 sc::result Menu_state::react(const Menu_event_settings& event) {
 	auto& menu_manager = context<Game_state_machine>().game_context.menu_manager;
 
-	menu_manager.set_menu(MENU_ID_SETTINGS);
+	menu_manager.set_menu(menu::MENU_ID_SETTINGS);
 	return transit<Menu_settings_state>();
 }
 

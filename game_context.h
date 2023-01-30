@@ -19,7 +19,7 @@ struct Game_context {
 	Game_clock clock;
 	Game_settings settings;
 	bool running;
-	Menu_manager& menu_manager;
+	menu::Menu_manager& menu_manager;
 
 	Game_context();
 };

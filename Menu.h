@@ -13,6 +13,8 @@
 #include "menu_widget.h"
 #include "sdl.h"
 
+namespace menu {
+
 using std::array;
 using std::vector;
 using std::string;
@@ -71,3 +73,4 @@ private:
 
 std::ostream& operator<<(std::ostream& os, Menu_entry& menuEntry);
 
+}

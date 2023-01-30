@@ -73,7 +73,7 @@ sc::result Menu_settings_state::react(const Menu_event_change_resolution& event)
 sc::result Menu_settings_state::react(const Menu_event_main& event) {
 	auto& menu_manager = context<Game_state_machine>().game_context.menu_manager;
 
-	menu_manager.set_menu(MENU_ID_MAIN);
+	menu_manager.set_menu(menu::MENU_ID_MAIN);
 	return transit<Menu_state>();
 }
 

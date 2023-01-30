@@ -1,7 +1,7 @@
 #include "game_state.h"
 
 Game_state_machine::Game_state_machine(Game_context& gameContext) : game_context(gameContext) {
-	gameContext.menu_manager.set_menu(MENU_ID_MAIN);
+	gameContext.menu_manager.set_menu(menu::MENU_ID_MAIN);
 }
 
 sc::result Play_state::react(const Input_event_start_button& event) {

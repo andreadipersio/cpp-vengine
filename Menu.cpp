@@ -1,10 +1,12 @@
 #include "Menu.h"
 
+namespace menu {
+
 static const vector<string> resolution_choices = { "640x480", "800x600", "1024x768" };
-static Menu_widget_choice resolution_widget{resolution_choices};
+static Menu_widget_choice resolution_widget{ resolution_choices };
 
 static const vector<string> language_choices = { "English", "Italiano", "Deutsch" };
-static Menu_widget_choice language_widget{language_choices};
+static Menu_widget_choice language_widget{ language_choices };
 
 static const vector<Menu_entry> main_menu_entries = {
 	{"New Game", true},
@@ -55,9 +57,9 @@ void Menu::select() {
 	}
 }
 
-Menu_manager::Menu_manager(): current_menu_(nullptr) {
-	menus_[MENU_ID_MAIN] = new Menu{MENU_ID_MAIN, main_menu_entries};
-	menus_[MENU_ID_SETTINGS] = new Menu{MENU_ID_SETTINGS, settings_menu_entries};
+Menu_manager::Menu_manager() : current_menu_(nullptr) {
+	menus_[MENU_ID_MAIN] = new Menu{ MENU_ID_MAIN, main_menu_entries };
+	menus_[MENU_ID_SETTINGS] = new Menu{ MENU_ID_SETTINGS, settings_menu_entries };
 }
 
 void Menu_manager::set_menu(Menu_id menu_id) {
@@ -94,4 +96,6 @@ std::ostream& operator<<(std::ostream& os, Menu_entry& menu_entry) {
 		return os << "Menu Entry: " << menu_entry.id << " [SELECTED]";
 	else
 		return os << "Menu Entry: " << menu_entry.id;
+}
+
 }
