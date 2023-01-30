@@ -9,7 +9,7 @@
 #define SDL_MAIN_HANDLED
 
 #include "game_context.h"
-#include "game_state.h"
+#include "state_machine/game_state.h"
 
 #include "menu_render.h"
 
