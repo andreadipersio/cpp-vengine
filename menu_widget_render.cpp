@@ -1,4 +1,4 @@
-#include "MenuWidgetRender.h"
+#include "menu_widget_render.h"
 
 Menu_widget_choice_render::Menu_widget_choice_render(Menu_widget_choice& widget)
 	: widget_(widget) {};

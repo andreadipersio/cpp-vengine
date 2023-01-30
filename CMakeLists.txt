@@ -15,20 +15,20 @@ find_package(SDL2_image REQUIRED CONFIG)
 
 
 add_executable (Traum 
-	"Traum.cpp"  
-	"GameClock.cpp" 
-	"GameContext.cpp"
-	"GameState.cpp" 
-	"Menu.cpp"
-    "Events.h" 
-	"SDL.cpp"
-	"MenuWidget.cpp"
-    "Events.cpp"
-	"MenuState.cpp"
-	"MenuSettingsState.cpp"
-    "MenuWidgetRender.cpp"
-	"MenuEntryRender.cpp"
-	"MenuRender.cpp"
+	"game.cpp"  
+	"game_clock.cpp" 
+	"game_context.cpp"
+	"game_state.cpp" 
+	"menu.cpp"
+    "events.cpp" 
+	"sdl.cpp"
+	"menu_widget.cpp"
+    "events.cpp"
+	"menu_state.cpp"
+	"menu_settings_state.cpp"
+    "menu_widget_render.cpp"
+	"menu_entry_render.cpp"
+	"menu_render.cpp"
 )
 
 target_link_libraries(Traum PRIVATE 

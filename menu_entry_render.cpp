@@ -1,4 +1,4 @@
-#include "MenuEntryRender.h"
+#include "menu_entry_render.h"
 
 Menu_entry_render::Menu_entry_render(Menu_entry& menu_entry)
 	: menu_entry_(menu_entry) {};

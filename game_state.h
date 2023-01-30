@@ -13,9 +13,9 @@
 
 #include <boost/mpl/list.hpp>
 
-#include "Events.h"
-#include "GameContext.h"
-#include "MenuWidget.h"
+#include "events.h"
+#include "game_context.h"
+#include "menu_widget.h"
 
 namespace sc = boost::statechart;
 namespace mpl = boost::mpl;

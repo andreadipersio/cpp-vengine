@@ -9,9 +9,9 @@
 #include <vector>
 #include <variant>
 
-#include "Events.h"
-#include "MenuWidget.h"
-#include "SDL.h"
+#include "events.h"
+#include "menu_widget.h"
+#include "sdl.h"
 
 using std::array;
 using std::vector;

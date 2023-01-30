@@ -1,10 +1,10 @@
 #pragma once
 
 #include <map>
-#include <SDL2/SDL.h>
+#include <SDL2/sdl.h>
 
-#include "Menu.h"
-#include "GameClock.h"
+#include "menu.h"
+#include "game_clock.h"
 
 struct Game_settings {
 	uint16_t resolution_width = 1024;

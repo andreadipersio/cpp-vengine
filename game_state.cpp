@@ -1,4 +1,4 @@
-#include "GameState.h"
+#include "game_state.h"
 
 Game_state_machine::Game_state_machine(Game_context& gameContext) : game_context(gameContext) {
 	gameContext.menu_manager.set_menu(MENU_ID_MAIN);

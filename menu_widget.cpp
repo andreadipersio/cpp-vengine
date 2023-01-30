@@ -1,4 +1,4 @@
-#include "MenuWidget.h"
+#include "menu_widget.h"
 
 Menu_widget_choice::Menu_widget_choice(vector<string> choices) : choices_(choices) {};
 

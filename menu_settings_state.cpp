@@ -1,4 +1,4 @@
-#include "GameState.h"
+#include "game_state.h"
 
 sc::result Menu_settings_state::react(const Input_event_dpad_up& event) {
 	auto& menu_manager = context<Game_state_machine>().game_context.menu_manager;

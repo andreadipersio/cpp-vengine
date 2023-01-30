@@ -1,4 +1,4 @@
-#include "MenuRender.h"
+#include "menu_render.h"
 
 Menu_render::Menu_render(Menu_manager& menu_manager)
 	: menu_manager_(menu_manager) {}

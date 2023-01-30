@@ -1,6 +1,6 @@
-#include "Menu.h"
-#include "MenuEntryRender.h"
-#include "SDL.h"
+#include "menu.h"
+#include "menu_entry_render.h"
+#include "sdl.h"
 
 using sdl2::Render_context;
 using sdl2::Render_offset;

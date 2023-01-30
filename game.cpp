@@ -8,12 +8,12 @@
 
 #define SDL_MAIN_HANDLED
 
-#include "GameContext.h"
-#include "GameState.h"
+#include "game_context.h"
+#include "game_state.h"
 
-#include "MenuRender.h"
+#include "menu_render.h"
 
-#include "SDL.h"
+#include "sdl.h"
 
 #include <SDL2/SDL_image.h>
 

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include <SDL2/sdl.h>
 
-#include "Menu.h"
-#include "MenuWidgetRender.h"
-#include "SDL.h"
+#include "menu.h"
+#include "menu_widget_render.h"
+#include "sdl.h"
 
 using sdl2::Render_offset;
 using sdl2::Render_context;

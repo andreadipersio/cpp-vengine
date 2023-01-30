@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-#include "GameClock.h"
+#include "game_clock.h"
 
 using namespace std::chrono;
 
