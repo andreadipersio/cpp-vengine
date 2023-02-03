@@ -64,6 +64,7 @@ public:
 	Menu_entry& get_menu_entry();
 
 	void set_menu(Menu_id menuId);
+	void with_settings_menu_defaults(string resolution, string language);
 
 private:
 	array<Menu*, MENU_COUNT> menus_;
@@ -73,4 +74,15 @@ private:
 
 std::ostream& operator<<(std::ostream& os, Menu_entry& menuEntry);
 
-}
+struct Widget_defaul_value_visitor {
+public:
+	Widget_defaul_value_visitor(string default_value);
+
+	void operator()(menu::Choice_widget* widget);
+
+private:
+	string default_value_;
+};
+
+} // end namespace menu
+

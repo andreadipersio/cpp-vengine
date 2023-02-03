@@ -86,9 +86,9 @@ struct Play_state : sc::simple_state<Play_state, Game_state_machine> {
 	Play_state();
 };
 
-struct VisitEvent {
+struct Visit_event {
 public:
-	VisitEvent(Game_state_machine&);
+	Visit_event(Game_state_machine&);
 	void operator()(Menu_event_settings&);
 	void operator()(Menu_event_main&);
 	void operator()(Game_event_quit&);
@@ -96,9 +96,9 @@ private:
 	Game_state_machine& state_machine_;
 };
 
-struct VisitWidget {
+struct Visit_widget {
 public:
-	VisitWidget(Game_state_machine&);
+	Visit_widget(Game_state_machine&);
 	void operator()(menu::Choice_widget*);
 private:
 	Game_state_machine& state_machine_;

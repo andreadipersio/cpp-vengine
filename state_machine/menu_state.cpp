@@ -24,11 +24,11 @@ sc::result Menu_state::react(const Input_event_button_a& event) {
 	auto& menu_manager = context<Game_state_machine>().game_context.menu_manager;
 
 	if (auto& next_event = menu_manager.get_menu_entry().game_event) {
-		std::visit(VisitEvent(context<Game_state_machine>()), next_event.value());
+		std::visit(Visit_event(context<Game_state_machine>()), next_event.value());
 	}
 
 	if (auto widget = menu_manager.get_menu_entry().widget) {
-		std::visit(VisitWidget(context<Game_state_machine>()), widget.value());
+		std::visit(Visit_widget(context<Game_state_machine>()), widget.value());
 	}
 
 	return discard_event();

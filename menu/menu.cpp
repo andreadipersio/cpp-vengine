@@ -66,6 +66,24 @@ void Menu_manager::set_menu(Menu_id menu_id) {
 	current_menu_ = menus_[menu_id];
 }
 
+void Menu_manager::with_settings_menu_defaults(string resolution, string language) {
+	auto& settings_menu = menus_[MENU_ID_SETTINGS];
+
+	for (auto i = 0; i < settings_menu->entries.size(); i++) {
+		auto& entry = settings_menu->entries[i];
+		auto& widget = entry.widget;
+
+		if (!widget) {
+			continue;
+		}
+
+		if (entry.id == "Resolution")
+			std::visit(Widget_defaul_value_visitor(resolution), widget.value());
+		else if (entry.id == "Language")
+			std::visit(Widget_defaul_value_visitor(language), widget.value());
+	}
+}
+
 vector<Menu_entry>::iterator Menu_manager::begin() {
 	return current_menu_->entries.begin();
 }
@@ -98,4 +116,17 @@ std::ostream& operator<<(std::ostream& os, Menu_entry& menu_entry) {
 		return os << "Menu Entry: " << menu_entry.id;
 }
 
+Widget_defaul_value_visitor::Widget_defaul_value_visitor(string default_value)
+	: default_value_(default_value) {}
+
+void Widget_defaul_value_visitor::operator()(menu::Choice_widget* widget) {
+	while (!widget->is_last()) {
+		if (widget->current_choice() == default_value_) {
+			return;
+		} 
+
+		widget->next_choice();
+	}
 }
+
+} // end namespace
