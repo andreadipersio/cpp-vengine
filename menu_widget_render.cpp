@@ -22,7 +22,7 @@ void Menu_widget_choice_render::operator()(Render_context& sdl_ctx, Render_offse
 			text_blocks.push_back({ "<", color });
 		}
 
-		text_blocks.push_back({ current_choice, active_color });
+		text_blocks.push_back({ current_choice->label(), active_color});
 
 		{
 			SDL_Color color;

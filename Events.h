@@ -3,6 +3,8 @@
 #include <boost/statechart/event.hpp>
 #include <variant>
 
+#include "game_settings.h";
+
 namespace sc = boost::statechart;
 
 struct Input_event_start_button : sc::event<Input_event_start_button> {};
@@ -26,6 +28,12 @@ struct Menu_event_change_resolution: sc::event<Menu_event_change_resolution> {
 	Menu_event_change_resolution(uint16_t, uint16_t);
 };
 
+struct Menu_event_change_language: sc::event<Menu_event_change_language> {
+	Language_id language_id;
+
+	Menu_event_change_language(Language_id);
+};
+
 using Input_event = std::variant< Input_event_start_button
 	                              , Input_event_dpad_down
 																, Input_event_dpad_up
@@ -37,3 +45,7 @@ using Game_event = std::variant<Game_event_quit
                                , Menu_event_main
 	                             , Menu_event_settings
                                >;
+
+using Menu_event = std::variant<Menu_event_change_resolution
+														   , Menu_event_change_language
+															 >;

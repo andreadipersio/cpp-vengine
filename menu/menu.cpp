@@ -2,10 +2,18 @@
 
 namespace menu {
 
-static const vector<string> resolution_choices = { "640x480", "800x600", "1024x768" };
+static const vector<choices::Base_choice*> resolution_choices = { 
+	new choices::Resolution_choice(640, 480),
+	new choices::Resolution_choice(800, 600), 
+	new choices::Resolution_choice(1024, 768) 
+};
 static Choice_widget resolution_widget{ resolution_choices };
 
-static const vector<string> language_choices = { "English", "Italiano", "Deutsch" };
+static const vector<choices::Base_choice*> language_choices = { 
+	new choices::Language_choice(Language_id::DEUTSCH),
+	new choices::Language_choice(Language_id::ENGLISH),
+	new choices::Language_choice(Language_id::ITALIANO) 
+};
 static Choice_widget language_widget{ language_choices };
 
 static const vector<Menu_entry> main_menu_entries = {
@@ -121,7 +129,7 @@ Widget_defaul_value_visitor::Widget_defaul_value_visitor(string default_value)
 
 void Widget_defaul_value_visitor::operator()(menu::Choice_widget* widget) {
 	while (!widget->is_last()) {
-		if (widget->current_choice() == default_value_) {
+		if (widget->current_choice()->label() == default_value_) {
 			return;
 		} 
 

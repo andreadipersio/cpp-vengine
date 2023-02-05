@@ -5,14 +5,7 @@
 
 #include "menu/menu.h"
 #include "game_clock.h"
-
-struct Game_settings {
-	uint16_t resolution_width = 1024;
-	uint16_t resolution_height = 768;
-	bool dirty;
-
-	void set_resolution(uint16_t w, uint16_t h);
-};
+#include "game_settings.h"
 
 struct Game_context {
 	std::map<int32_t, SDL_GameController*> controllers;

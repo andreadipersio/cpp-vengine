@@ -52,7 +52,7 @@ sc::result Menu_settings_state::react(const Input_event_button_a& event) {
 	}
 
 	if (auto widget = menu_manager.get_menu_entry().widget) {
-		std::visit(Visit_widget(context<Game_state_machine>()), widget.value());
+		std::visit(Apply_choice(context<Game_state_machine>()), widget.value());
 	}
 
 	return discard_event();

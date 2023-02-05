@@ -18,6 +18,7 @@ add_executable (Traum
 	"game.cpp"  
 	"game_clock.cpp" 
 	"game_context.cpp"
+	"game_settings.cpp"
 	"state_machine/game_state.cpp" 
 	"menu/menu.cpp"
 	"menu/menu_widget.cpp"

@@ -30,21 +30,15 @@ void Visit_event::operator()(Game_event_quit& event) {
 	state_machine_.post_event_impl(event);
 }
 
-Visit_widget::Visit_widget(Game_state_machine& state_machine)
+Apply_choice::Apply_choice(Game_state_machine& state_machine)
 	: state_machine_(state_machine) {};
 
-void Visit_widget::operator()(menu::Choice_widget* widget) {
-	vector<std::tuple<string, uint16_t, uint16_t>> video_modes{
-		{"640x480", 640, 480},
-		{"800x600", 800, 600},
-		{"1024x768", 1024, 768}
-	};
+void Apply_choice::operator()(menu::Choice_widget* widget) {
+	Menu_event event = widget->current_choice()->apply();
 
-	for (auto [resolution_str, width, height] : video_modes) {
-		if (widget->current_choice() != resolution_str) continue;
-		state_machine_.post_event_impl(Menu_event_change_resolution{ width, height });
-		break;
-	}
+	std::visit([&](auto event) {
+		state_machine_.post_event_impl(event);
+	}, event);
 }
 
 }

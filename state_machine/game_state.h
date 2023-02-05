@@ -96,9 +96,9 @@ private:
 	Game_state_machine& state_machine_;
 };
 
-struct Visit_widget {
+struct Apply_choice {
 public:
-	Visit_widget(Game_state_machine&);
+	Apply_choice(Game_state_machine&);
 	void operator()(menu::Choice_widget*);
 private:
 	Game_state_machine& state_machine_;
