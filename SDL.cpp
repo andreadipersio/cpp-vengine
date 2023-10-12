@@ -69,8 +69,8 @@ Render_context make_context_or_throw(uint16_t width, uint16_t height) {
 		throw std::runtime_error(format("SDL_CreateRenderer Error: {}", SDL_GetError()));
 	}
 
-	Font_ptr menuFont1{TTF_OpenFont("F:/projects/Traum/Traum/assets/MenuFont.ttf", 24)};
-	Font_ptr menuFont2{TTF_OpenFont("F:/projects/Traum/Traum/assets/MenuFont.ttf", 18)};
+	Font_ptr menuFont1{TTF_OpenFont("F:/projects/VEngine/assets/MenuFont.ttf", 24)};
+	Font_ptr menuFont2{TTF_OpenFont("F:/projects/VEngine/assets/MenuFont.ttf", 18)};
 
 	if (!menuFont1 || !menuFont2) {
 		throw std::runtime_error(format("Cannot load font: {}", TTF_GetError()));

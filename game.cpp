@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) {
 		SDL_SetRenderDrawColor(sdl_ctx.r.get(), 0, 0, 0, 0);
 		SDL_RenderClear(sdl_ctx.r.get());
 
-		sdl::Texture_ptr menu_bkg_texture{ IMG_LoadTexture(sdl_ctx.r.get(), "F:/projects/Traum/Traum/assets/MenuBackground.png") };
+		sdl::Texture_ptr menu_bkg_texture{ IMG_LoadTexture(sdl_ctx.r.get(), "F:/projects/VEngine/assets/MenuBackground.png") };
 		SDL_Rect bkg_geometry{ 0, 0, 1024, 768 };
 
 		SDL_RenderCopy(sdl_ctx.r.get(), menu_bkg_texture.get(), NULL, &bkg_geometry);

@@ -1,10 +1,10 @@
-﻿# CMakeList.txt : CMake project for Traum, include source and define
+﻿# CMakeList.txt : CMake project for VEngine, include source and define
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.8)
 set(CMAKE_CXX_STANDARD 20)
 
-project ("Traum")
+project ("VEngine")
 
 find_package(Boost REQUIRED COMPONENTS chrono log locale)
 find_package(Fmt REQUIRED CONFIG)
@@ -14,7 +14,7 @@ find_package(SDL2_image REQUIRED CONFIG)
 
 
 
-add_executable (Traum 
+add_executable (VEngine 
 	"game.cpp"  
 	"game_clock.cpp" 
 	"game_context.cpp"
@@ -32,7 +32,7 @@ add_executable (Traum
 	"menu_render.cpp"
 )
 
-target_link_libraries(Traum PRIVATE 
+target_link_libraries(VEngine PRIVATE 
 	SDL2::SDL2 
 	$<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
