@@ -1,12 +1,12 @@
 ﻿# CMakeList.txt : CMake project for VEngine, include source and define
 # project specific logic here.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.10)
 set(CMAKE_CXX_STANDARD 20)
 
 project ("VEngine")
 
-find_package(Boost REQUIRED COMPONENTS chrono log locale)
+find_package(Boost REQUIRED COMPONENTS chrono log locale statechart)
 find_package(Fmt REQUIRED CONFIG)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_ttf REQUIRED CONFIG)
@@ -36,7 +36,6 @@ target_link_libraries(VEngine PRIVATE
 	SDL2::SDL2 
 	$<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
     $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
-	Boost::log_setup 
 	Boost::log 
 	Boost::locale
 	fmt::fmt
