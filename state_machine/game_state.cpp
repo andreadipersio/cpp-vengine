@@ -3,6 +3,7 @@
 namespace state_machine {
 
 Game_state_machine::Game_state_machine(Game_context& gameContext) : game_context(gameContext) {
+	context<Game_state_machine>().game_context.state = Game_state::MENU;
 	gameContext.menu_manager.set_menu(menu::MENU_ID_MAIN);
 	gameContext.menu_manager.with_settings_menu_defaults("1024x768", "English");
 }

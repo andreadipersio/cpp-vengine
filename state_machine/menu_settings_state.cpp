@@ -65,7 +65,7 @@ sc::result Menu_settings_state::react(const Input_event_button_b& event) {
 }
 
 sc::result Menu_settings_state::react(const Game_event_quit& event) {
-	context<Game_state_machine>().game_context.running = false;
+	context<Game_state_machine>().game_context.state = Game_state::QUIT;
 
 	return discard_event();
 }

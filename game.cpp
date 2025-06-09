@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	while (gc.running) {
+	while (gc.state != Game_state::QUIT) {
 		if (gc.settings.dirty) {
 			sdl_ctx.apply_config_change(gc.settings.resolution_width,
 																	gc.settings.resolution_height);
@@ -110,8 +110,12 @@ int main(int argc, char* argv[]) {
 		SDL_SetRenderDrawColor(sdl_ctx.r.get(), 0, 0, 0, 0);
 		SDL_RenderClear(sdl_ctx.r.get());
 
-		Menu_render menu_render{ gc.menu_manager };
-		menu_render(sdl_ctx);
+		switch (gc.state) {
+		case Game_state::MENU:
+			Menu_render menu_render{ gc.menu_manager };
+			menu_render(sdl_ctx);
+			break;
+		}
 
 		SDL_RenderPresent(sdl_ctx.r.get());
 
