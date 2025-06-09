@@ -12,6 +12,7 @@
 #include "state_machine/game_state.h"
 
 #include "menu_render.h"
+#include "pause_render.cpp"
 
 #include "sdl.h"
 
@@ -26,6 +27,7 @@ int main(int argc, char* argv[]) {
 	gameStateMachine.initiate();
 
 	Menu_render menu_render{ gc.menu_manager };
+	Pause_render pause_render{};
 
 	sdl::Render_context sdl_ctx;
 
@@ -117,19 +119,7 @@ int main(int argc, char* argv[]) {
 			menu_render(sdl_ctx);
 			break;
 		case Game_state::PAUSE:
-			auto font = sdl_ctx.fonts[sdl::MENU_MEDIUM_FONT].get();
-			SDL_Color color = { 255, 255, 255 };
-			Surface_ptr surface{ TTF_RenderText_Solid(font, "PAUSED", color) };
-			Texture_ptr texture{ SDL_CreateTextureFromSurface(sdl_ctx.r.get(), surface.get()) };
-
-			auto w = gc.settings.resolution_width;
-			auto h = gc.settings.resolution_height;
-
-			SDL_Rect renderQuad = { 0, 0, surface->w, surface->h };
-			renderQuad.x = (w - renderQuad.w) / 2;
-			renderQuad.y = (h - renderQuad.h) / 2;
-
-			SDL_RenderCopy(sdl_ctx.r.get(), texture.get(), NULL, &renderQuad);
+			pause_render(sdl_ctx);
 			break;
 		}
 

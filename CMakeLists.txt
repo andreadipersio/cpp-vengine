@@ -32,7 +32,8 @@ add_executable (VEngine
     "menu_widget_render.cpp"
 	"menu_entry_render.cpp"
 	"menu_render.cpp"
- )
+    "pause_render.cpp"
+)
 
 target_link_libraries(VEngine PRIVATE 
 	SDL2::SDL2 
