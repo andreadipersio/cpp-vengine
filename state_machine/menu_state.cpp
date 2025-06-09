@@ -41,6 +41,10 @@ sc::result Menu_state::react(const Menu_event_settings& event) {
 	return transit<Menu_settings_state>();
 }
 
+sc::result Menu_state::react(const Game_event_new_game& event) {
+	return transit<Play_state>();
+}
+
 sc::result Menu_state::react(const Game_event_quit& event) {
 	context<Game_state_machine>().game_context.running = false;
 

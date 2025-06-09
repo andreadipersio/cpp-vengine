@@ -27,10 +27,12 @@ add_executable (VEngine
     "events.cpp"
 	"state_machine/menu_state.cpp"
 	"state_machine/menu_settings_state.cpp"
+	"state_machine/play_state.cpp"
+	"state_machine/pause_state.cpp"
     "menu_widget_render.cpp"
 	"menu_entry_render.cpp"
 	"menu_render.cpp"
-)
+ )
 
 target_link_libraries(VEngine PRIVATE 
 	SDL2::SDL2 

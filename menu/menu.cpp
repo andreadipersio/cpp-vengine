@@ -17,8 +17,7 @@ static const vector<choices::Base_choice*> language_choices = {
 static Choice_widget language_widget{ language_choices };
 
 static const vector<Menu_entry> main_menu_entries = {
-	{"New Game", true},
-	{"Load Game", false},
+	{"New Game", true, Game_event_new_game{}},
 	{"Settings", false, Menu_event_settings{}},
 	{"Quit Game", false, Game_event_quit{}}
 };

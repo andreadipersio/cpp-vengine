@@ -64,6 +64,12 @@ sc::result Menu_settings_state::react(const Input_event_button_b& event) {
 	return discard_event();
 }
 
+sc::result Menu_settings_state::react(const Game_event_quit& event) {
+	context<Game_state_machine>().game_context.running = false;
+
+	return discard_event();
+}
+
 sc::result Menu_settings_state::react(const Menu_event_change_resolution& event) {
 	auto& settings = context<Game_state_machine>().game_context.settings;
 

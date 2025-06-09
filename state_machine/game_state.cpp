@@ -7,14 +7,6 @@ Game_state_machine::Game_state_machine(Game_context& gameContext) : game_context
 	gameContext.menu_manager.with_settings_menu_defaults("1024x768", "English");
 }
 
-sc::result Play_state::react(const Input_event_start_button& event) {
-	return transit<Menu_state>();
-}
-
-Play_state::Play_state() {
-	BOOST_LOG_TRIVIAL(debug) << "playState";
-}
-
 Visit_event::Visit_event(Game_state_machine& state_machine)
 	: state_machine_(state_machine) {};
 
@@ -23,6 +15,10 @@ void Visit_event::operator()(Menu_event_settings& event) {
 }
 
 void Visit_event::operator()(Menu_event_main& event) {
+	state_machine_.post_event_impl(event);
+}
+
+void Visit_event::operator()(Game_event_new_game& event) {
 	state_machine_.post_event_impl(event);
 }
 

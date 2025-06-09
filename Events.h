@@ -19,6 +19,7 @@ struct Input_event_button_b: sc::event<Input_event_button_b> {};
 struct Menu_event_settings: sc::event<Menu_event_settings> {};
 struct Menu_event_main: sc::event<Menu_event_main> {};
 
+struct Game_event_new_game : sc::event<Game_event_new_game> {};
 struct Game_event_quit : sc::event<Game_event_quit> {};
 
 struct Menu_event_change_resolution: sc::event<Menu_event_change_resolution> {
@@ -42,6 +43,7 @@ using Input_event = std::variant< Input_event_start_button
                                 >;
 
 using Game_event = std::variant<Game_event_quit
+	                             , Game_event_new_game
                                , Menu_event_main
 	                             , Menu_event_settings
                                >;
