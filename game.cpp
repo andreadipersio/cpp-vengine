@@ -110,17 +110,8 @@ int main(int argc, char* argv[]) {
 		SDL_SetRenderDrawColor(sdl_ctx.r.get(), 0, 0, 0, 0);
 		SDL_RenderClear(sdl_ctx.r.get());
 
-		sdl::Texture_ptr menu_bkg_texture{ IMG_LoadTexture(sdl_ctx.r.get(), "F:/projects/VEngine/assets/MenuBackground.png") };
-		SDL_Rect bkg_geometry{ 0, 0, 1024, 768 };
-
-		SDL_RenderCopy(sdl_ctx.r.get(), menu_bkg_texture.get(), NULL, &bkg_geometry);
-
-		uint16_t menu_x_top_margin = 20;
-		uint16_t menu_y_top_margin = 20;
-		sdl::Render_offset offset{ menu_x_top_margin, menu_y_top_margin };
-
 		Menu_render menu_render{ gc.menu_manager };
-		menu_render(sdl_ctx, offset);
+		menu_render(sdl_ctx);
 
 		SDL_RenderPresent(sdl_ctx.r.get());
 
