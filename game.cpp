@@ -110,7 +110,6 @@ int main(int argc, char* argv[]) {
 		//
 		// Rendering
 		//
-
 		SDL_SetRenderDrawColor(sdl_ctx.r.get(), 0, 0, 0, 0);
 		SDL_RenderClear(sdl_ctx.r.get());
 
@@ -119,7 +118,13 @@ int main(int argc, char* argv[]) {
 			menu_render(sdl_ctx);
 			break;
 		case Game_state::PAUSE:
+			auto start = std::chrono::high_resolution_clock::now();
 			pause_render(sdl_ctx);
+			auto end = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double> duration = end - start;
+			// Time taken by function: 0.0002585 seconds
+			// Time taken by function: 0.0003326 seconds 
+			BOOST_LOG_TRIVIAL(debug) << "Time taken by function: " << duration.count() << " seconds";
 			break;
 		}
 

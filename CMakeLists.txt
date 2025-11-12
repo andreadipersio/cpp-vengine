@@ -33,6 +33,7 @@ add_executable (VEngine
 	"menu_entry_render.cpp"
 	"menu_render.cpp"
     "pause_render.cpp"
+	"asset_manager.cpp"
 )
 
 target_link_libraries(VEngine PRIVATE 

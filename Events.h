@@ -3,7 +3,7 @@
 #include <boost/statechart/event.hpp>
 #include <variant>
 
-#include "game_settings.h";
+#include "game_settings.h"
 
 namespace sc = boost::statechart;
 
